@@ -4,147 +4,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Game Dev Dashboard</title>
+    <!-- Elegant Font Embeds -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: #ecf0f1; padding: 0; margin: 0; position: relative; min-height: 100vh; box-sizing: border-box; }
+        /* --- CORE VARS FOR LIGHT / DARK THEME --- */
+        :root {
+            --bg-main: #121214;
+            --bg-card: #1a1a1e;
+            --text-main: #f4f4f6;
+            --text-muted: #9a9a14;
+            --border-color: #2a2a30;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #aa882c;
+            --accent-rose: #c86b6b;
+            --accent-blue: #5b84a8;
+            --accent-purple: #8e7aa8;
+            --ticker-bg: #1c1a17;
+            --ticker-text: #d4af37;
+            --ticker-border: #d4af37;
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.5);
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Inter', system-ui, sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #fcfbfa;
+            --bg-card: #ffffff;
+            --text-main: #222224;
+            --text-muted: #71717a;
+            --border-color: #e4e4e7;
+            --accent-gold: #b59410;
+            --accent-gold-hover: #8c720a;
+            --accent-rose: #a34848;
+            --accent-blue: #3b6082;
+            --accent-purple: #614d7a;
+            --ticker-bg: #f5f2eb;
+            --ticker-text: #8c720a;
+            --ticker-border: #b59410;
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        body { 
+            font-family: var(--font-sans); 
+            background: var(--bg-main); 
+            color: var(--text-main); 
+            padding: 0; 
+            margin: 0; 
+            position: relative; 
+            min-height: 100vh; 
+            box-sizing: border-box; 
+            transition: background 0.3s, color 0.3s;
+            letter-spacing: -0.01em;
+        }
         
         /* --- FIXED MARGINS TO PREVENT BANNER OVERLAPPING --- */
-        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px 80px 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 70px 20px 100px 20px; }
         
-        /* --- ORANGE TICKER BANNERS --- */
-        .ticker-wrap { position: fixed; left: 0; width: 100%; background: #e67e22; color: #ffffff; overflow: hidden; height: 35px; display: flex; align-items: center; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.4); font-weight: bold; font-size: 15px; letter-spacing: 0.5px; }
-        .ticker-top { top: 0; border-bottom: 2px solid #d35400; }
-        .ticker-bottom { bottom: 0; border-top: 2px solid #d35400; }
+        /* --- ELEGANT TICKER BANNERS --- */
+        .ticker-wrap { position: fixed; left: 0; width: 100%; background: var(--ticker-bg); color: var(--ticker-text); overflow: hidden; height: 38px; display: flex; align-items: center; z-index: 2000; box-shadow: var(--shadow-subtle); font-family: var(--font-serif); font-style: italic; font-size: 14px; letter-spacing: 0.5px; transition: background 0.3s, color 0.3s; }
+        .ticker-top { top: 0; border-bottom: 1px solid var(--ticker-border); }
+        .ticker-bottom { bottom: 0; border-top: 1px solid var(--ticker-border); }
         
-        .ticker-content { display: inline-flex; white-space: nowrap; padding-left: 100%; gap: 50px; }
+        .ticker-content { display: inline-flex; white-space: nowrap; padding-left: 100%; gap: 60px; }
         
         @keyframes marquee-left { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
         @keyframes marquee-right { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
         
-        .move-left .ticker-content { animation: marquee-left 25s linear infinite; }
-        .move-right .ticker-content { animation: marquee-right 25s linear infinite; }
+        .move-left .ticker-content { animation: marquee-left 30s linear infinite; }
+        .move-right .ticker-content { animation: marquee-right 30s linear infinite; }
         .ticker-item { display: inline-block; padding-right: 20px; }
 
-        /* --- PURPLE CONTAINER TITLE BANNER --- */
-        .title-purple-box { background: #34495e; border: 4px solid #8e44ad; border-radius: 12px; padding: 20px 10px; margin-bottom: 25px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
-        .title-purple-box h1 { font-size: 2.3em; margin: 0; color: #3498db; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 15px; }
+        /* --- FINE TYPOGRAPHY TITLE BANNER --- */
+        .title-purple-box { padding: 10px 10px; margin-bottom: 35px; text-align: center; }
+        .title-purple-box h1 { font-family: var(--font-serif); font-weight: 400; font-size: 2.5em; margin: 0; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; }
 
-        /* --- BLUE CONTAINER (GOALS SECTION) --- */
-        .card-blue-outline { background: #34495e; padding: 30px; margin-bottom: 25px; border-radius: 12px; border: 4px solid #3498db; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        /* --- PREMIUM APOTHECARY STYLE CARDS --- */
+        .card-blue-outline, .card-red-outline { 
+            background: var(--bg-card); 
+            padding: 35px; 
+            margin-bottom: 30px; 
+            border-radius: 6px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-subtle); 
+            transition: background 0.3s, border-color 0.3s;
+        }
         
-        /* --- RED CONTAINER (CHARACTER WORKSPACE CONTAINER) --- */
-        .card-red-outline { background: #34495e; padding: 30px; margin-bottom: 25px; border-radius: 12px; border: 4px solid #e74c3c; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        .card-blue-outline { border-top: 3px solid var(--accent-blue); }
+        .card-red-outline { border-top: 3px solid var(--accent-rose); }
 
-        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #7f8c8d; flex-wrap: wrap; }
-        .title-label { font-size: 1.6em; font-weight: bold; color: #e74c3c; margin: 0; }
-        select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.4em; font-weight: bold; border-radius: 4px; padding: 4px 8px; cursor: pointer; outline: none; }
+        .title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; padding-bottom: 18px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
+        .title-label { font-family: var(--font-serif); font-size: 1.5em; color: var(--text-main); margin: 0; }
+        select.time-select { background: transparent; color: var(--accent-gold); border: 1px solid var(--border-color); font-family: var(--font-serif); font-size: 1.2em; font-style: italic; border-radius: 4px; padding: 4px 12px; cursor: pointer; outline: none; }
 
-        .deadline-container { display: flex; align-items: center; gap: 8px; margin-left: auto; background: #1a252f; padding: 8px 15px; border-radius: 20px; border: 1px solid #7f8c8d; font-size: 14px; font-weight: bold; }
-        .deadline-display { color: #f1c40f; }
-        .deadline-pickers { display: flex; align-items: center; gap: 5px; }
-        .deadline-pickers input[type="date"], .deadline-pickers input[type="time"] { background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-family: inherit; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .deadline-container { display: flex; align-items: center; gap: 12px; margin-left: auto; background: var(--bg-main); padding: 8px 18px; border-radius: 4px; border: 1px solid var(--border-color); font-size: 13px; font-weight: 500; }
+        .deadline-display { color: var(--accent-gold); }
+        .deadline-pickers { display: flex; align-items: center; gap: 8px; }
+        .deadline-pickers input[type="date"], .deadline-pickers input[type="time"] { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px; font-family: var(--font-sans); font-size: 11px; cursor: pointer; }
 
-        textarea { width: 100%; height: 80px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 12px; box-sizing: border-box; font-size: 15px; resize: vertical; }
-        input[type="text"].standard-in { background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px 14px; width: 70%; box-sizing: border-box; font-size: 15px; }
+        textarea { width: 100%; height: 90px; background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 14px; box-sizing: border-box; font-size: 14px; font-family: var(--font-sans); resize: vertical; outline: none; }
+        input[type="text"].standard-in { background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px 16px; width: 72%; box-sizing: border-box; font-size: 14px; font-family: var(--font-sans); outline: none; }
         
-        button { background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        button:hover { background: #27ae60; }
-        .btn-delete { background: #c0392b; padding: 6px 12px; font-size: 13px; margin-left: 10px; color: white; border-radius: 4px; }
-        .btn-delete:hover { background: #962d22; }
+        button { background: var(--text-main); color: var(--bg-main); border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; font-family: var(--font-sans); letter-spacing: 0.5px; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        .btn-delete { background: transparent; padding: 6px 12px; font-size: 12px; margin-left: 10px; color: var(--accent-rose); border: 1px solid var(--border-color); border-radius: 4px; }
+        .btn-delete:hover { background: var(--accent-rose); color: white; border-color: var(--accent-rose); }
 
-        .todo-list { list-style: none; padding: 0; margin-top: 20px; }
-        .todo-item { display: flex; align-items: center; justify-content: space-between; background: #2c3e50; padding: 16px 20px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+        .todo-list { list-style: none; padding: 0; margin-top: 25px; }
+        .todo-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-main); padding: 16px 20px; margin-bottom: 12px; border-radius: 4px; border: 1px solid var(--border-color); }
         .todo-left { display: flex; align-items: center; gap: 16px; width: 80%; }
-        .todo-left span { font-size: 1.35em; font-weight: 600; line-height: 1.3; word-break: break-word; }
-        .todo-item input[type="checkbox"] { transform: scale(1.6); cursor: pointer; margin-right: 6px; }
-        .completed { text-decoration: line-through; color: #7f8c8d; opacity: 0.6; }
+        .todo-left span { font-size: 1.1em; font-weight: 400; line-height: 1.4; word-break: break-word; }
+        .todo-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent-gold); cursor: pointer; }
+        .completed { text-decoration: line-through; opacity: 0.4; }
 
-        /* Folder Manager Grid */
-        .folder-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
-        .char-folder { background: #3498db; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 10px; font-size: 15px; position: relative; }
-        .char-folder:hover { background: #2980b9; }
-        .char-folder.active { background: #e67e22; }
-        .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; }
-        .char-delete:hover { background: #c0392b; }
+        /* Elegant Folders */
+        .folder-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 25px; }
+        .char-folder { background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 12px; font-size: 14px; position: relative; transition: border-color 0.2s, background 0.2s; }
+        .char-folder:hover { border-color: var(--accent-gold); }
+        .char-folder.active { background: var(--bg-card); border: 1px solid var(--accent-gold); box-shadow: inset 0 0 4px rgba(212,175,55,0.2); }
+        .char-delete { background: transparent; border: none; color: var(--text-muted); width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
+        .char-delete:hover { color: var(--accent-rose); }
 
         /* PFPs */
-        .char-pfp-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; background: #7f8c8d; object-fit: cover; display: inline-block; vertical-align: middle; }
+        .char-pfp-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-color); background: #777; object-fit: cover; }
         .workspace-pfp-container { position: relative; display: inline-block; cursor: pointer; }
-        .workspace-pfp-container:hover::after { content: 'Change PFP 📸'; position: absolute; bottom: -20px; left: 0; font-size: 10px; background: rgba(0,0,0,0.8); color: white; padding: 2px 5px; border-radius: 4px; white-space: nowrap; }
-        .workspace-pfp { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #3498db; background: #7f8c8d; object-fit: cover; }
+        .workspace-pfp { width: 60px; height: 60px; border-radius: 50%; border: 1px solid var(--accent-gold); background: #777; object-fit: cover; }
 
         /* Workspace Grid Box */
-        .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 12px; padding: 25px; margin-top: 20px; border: 3px solid #34495e; min-height: 450px; position: relative; }
-        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #34495e; padding-bottom: 15px; gap: 15px; flex-wrap: wrap; }
-        .sketch-char-name-wrapper { display: flex; align-items: center; gap: 15px; }
-        .sketch-char-name { font-size: 1.6em; font-weight: bold; border: 2px solid #3498db; padding: 6px 20px; background: #34495e; border-radius: 8px; color: #3498db; }
+        .sketch-workspace { background: var(--bg-card); border-radius: 4px; padding: 30px; margin-top: 30px; border: 1px solid var(--border-color); min-height: 450px; position: relative; }
+        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; gap: 15px; flex-wrap: wrap; }
+        .sketch-char-name-wrapper { display: flex; align-items: center; gap: 18px; }
+        .sketch-char-name { font-family: var(--font-serif); font-size: 1.6em; font-weight: 400; padding: 4px 0; color: var(--text-main); border-bottom: 1px solid var(--accent-gold); }
         
-        /* --- LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- */
-        .love-degrees-panel { background: #34495e; border: 3px solid #e74c3c; border-radius: 12px; padding: 20px; margin-bottom: 25px; display: none; position: relative; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
-        .love-degrees-panel::after { content: ''; position: absolute; bottom: -15px; right: 125px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #e74c3c; }
+        /* --- LOVE DEGREES OVERLAY BOX --- */
+        .love-degrees-panel { background: var(--bg-main); border: 1px solid var(--accent-rose); border-radius: 4px; padding: 25px; margin-bottom: 30px; display: none; position: relative; box-shadow: var(--shadow-subtle); }
+        .love-degree-item { background: var(--bg-card); padding: 20px; border-radius: 4px; border: 1px solid var(--border-color); border-left: 3px solid var(--accent-rose); margin-bottom: 15px; }
+        .love-degree-header { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+        .love-degree-title-in { background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 12px; font-size: 13px; flex-grow: 1; box-sizing: border-box; height: 38px; font-family: var(--font-sans); }
+        .love-degree-rate-in { background: var(--bg-main); color: var(--accent-gold); border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 12px; font-weight: 500; font-size: 13px; width: 90px; text-align: center; box-sizing: border-box; height: 38px; font-family: var(--font-sans); }
+        .love-degree-delete-btn { background: transparent; color: var(--accent-rose); border: 1px solid var(--border-color); border-radius: 4px; padding: 0 14px; font-size: 12px; cursor: pointer; height: 38px; box-sizing: border-box; }
+        .love-degree-delete-btn:hover { background: var(--accent-rose); color: white; }
+        .love-degree-desc { width: 100%; height: 65px; background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; font-size: 13px; resize: none; box-sizing: border-box; font-family: var(--font-sans); }
         
-        .love-degree-item { background: #2c3e50; padding: 15px; border-radius: 8px; border-left: 5px solid #e74c3c; margin-bottom: 15px; position: relative; }
-        .love-degree-header { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
-        .love-degree-title-in { background: #34495e; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; font-weight: bold; font-size: 14px; flex-grow: 1; box-sizing: border-box; height: 38px; }
-        .love-degree-rate-in { background: #34495e; color: #f1c40f; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; font-weight: bold; font-size: 14px; width: 100px; text-align: center; box-sizing: border-box; height: 38px; }
-        
-        /* --- INLINE DELETE BUTTON DESIGN --- */
-        .love-degree-delete-btn { background: #c0392b; color: white; border: none; border-radius: 4px; padding: 0 14px; font-weight: bold; font-size: 13px; cursor: pointer; height: 38px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; transition: background 0.2s; }
-        .love-degree-delete-btn:hover { background: #962d22; }
+        .add-degree-btn-box { width: 40px; height: 40px; border: 1px dashed var(--accent-rose); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--accent-rose); cursor: pointer; transition: background 0.2s; }
+        .add-degree-btn-box:hover { background: rgba(200, 107, 107, 0.05); }
 
-        .love-degree-desc { width: 100%; height: 60px; background: #34495e; color: #ecf0f1; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; font-size: 13px; resize: none; box-sizing: border-box; }
+        .search-wrapper { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .color-ball-filters { display: flex; gap: 8px; align-items: center; }
         
-        /* The dynamic plus box inside love container */
-        .add-degree-btn-box { width: 45px; height: 45px; border: 2px dashed #e74c3c; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #e74c3c; cursor: pointer; font-weight: bold; user-select: none; transition: background 0.2s; }
-        .add-degree-btn-box:hover { background: rgba(231, 76, 60, 0.1); }
+        .filter-ball { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.1s; }
+        .filter-ball:hover { transform: scale(1.1); }
+        .filter-ball.active { border-color: var(--text-main); box-shadow: 0 0 6px var(--accent-gold); }
+        .all-colors-ball { background: linear-gradient(45deg, var(--accent-rose), var(--accent-blue), var(--accent-purple), var(--accent-gold)); }
 
-        .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .color-ball-filters { display: flex; gap: 6px; align-items: center; }
+        .sketch-search-banner { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 6px 14px; display: flex; align-items: center; }
+        .sketch-search-banner input { background: transparent; border: none; color: var(--text-main); font-size: 13px; outline: none; width: 120px; font-family: var(--font-sans); }
+
+        .idea-boxes-container { display: flex; flex-direction: column; gap: 16px; margin-bottom: 90px; }
+        .red-idea-box { color: #ffffff; border-radius: 4px; padding: 20px; font-size: 14px; line-height: 1.5; position: relative; word-wrap: break-word; font-weight: 300; box-shadow: var(--shadow-subtle); }
         
-        .filter-ball { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #7f8c8d; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .filter-ball:hover { transform: scale(1.15); }
-        .filter-ball.active { border-color: white; box-shadow: 0 0 8px white; transform: scale(1.1); }
-        .all-colors-ball { background: linear-gradient(45deg, #e74c3c, #3498db, #2ecc71, #f1c40f); }
+        /* Retain white text alignment for custom rich container fields over dynamic background engine colors */
+        [data-theme="light"] .red-idea-box { text-shadow: 0 1px 2px rgba(0,0,0,0.5); font-weight: 400; }
 
-        .sketch-search-banner { background: #2980b9; border: 2px solid #2c3e50; border-radius: 6px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; }
-        .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; font-weight: bold; outline: none; width: 130px; }
-
-        .idea-boxes-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 90px; }
-        .red-idea-box { color: white; border: 2px solid #2c3e50; border-radius: 12px; padding: 18px; font-weight: bold; box-shadow: 3px 3px 0px #1a252f; position: relative; word-wrap: break-word; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); font-size: 15px; }
+        .media-box { background: var(--bg-main); border: 1px dashed var(--border-color); border-radius: 4px; padding: 20px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .media-box img { max-width: 100%; max-height: 280px; border-radius: 2px; border: 1px solid var(--border-color); }
+        .doc-badge { display: flex; align-items: center; gap: 14px; background: var(--bg-card); padding: 14px 20px; border-radius: 4px; width: 95%; box-sizing: border-box; border-left: 3px solid var(--accent-gold); border-right: 1px solid var(--border-color); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         
-        .media-box { background: #34495e; border: 2px dashed #3498db; border-radius: 12px; padding: 15px; position: relative; box-shadow: 3px 3px 0px #1a252f; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .media-box img { max-width: 100%; max-height: 300px; border-radius: 6px; border: 2px solid #2c3e50; }
-        .doc-badge { display: flex; align-items: center; gap: 12px; background: #2c3e50; padding: 12px 22px; border-radius: 6px; font-weight: bold; width: 95%; box-sizing: border-box; border-left: 5px solid #e67e22; }
-        
-        .idea-box-delete { position: absolute; top: 10px; right: 10px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; align-items: center; justify-content: center; z-index: 5; }
-        .idea-box-delete:hover { background: #c0392b; }
+        .idea-box-delete { position: absolute; top: 12px; right: 12px; cursor: pointer; color: var(--text-muted); background: transparent; border: none; font-size: 11px; z-index: 5; }
+        .idea-box-delete:hover { color: var(--accent-rose); }
 
-        /* Floating action tray directly matching your layout array */
-        .floating-actions-tray { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 12px; align-items: center; z-index: 10; }
-        .action-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; user-select: none; }
-        .action-btn:hover { transform: scale(1.08); }
+        /* Tray Buttons Layout */
+        .floating-actions-tray { position: absolute; bottom: 25px; right: 25px; display: flex; gap: 14px; align-items: center; z-index: 10; }
+        .action-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border-color); color: var(--text-main); background: var(--bg-main); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-subtle); transition: transform 0.2s, border-color 0.2s; position: relative; user-select: none; }
+        .action-btn:hover { transform: translateY(-2px); border-color: var(--accent-gold); }
         .action-btn input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .btn-heart { background: #e74c3c; }
-        .btn-heart.active { box-shadow: 0 0 14px #e74c3c; border-color: white; }
-        .btn-plus { background: #2ecc71; font-size: 28px; font-weight: bold; }
-        .btn-photo { background: #3498db; }
-        .btn-word { background: #e67e22; }
-        .idea-popup { background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
+        .btn-heart.active { border-color: var(--accent-rose); box-shadow: 0 0 10px rgba(200,107,107,0.3); }
+        .idea-popup { background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 20px; margin-top: 15px; display: none; }
 
-        /* --- AUTO-SLIDING EDGE CHAT BADGE SYSTEM --- */
+        /* --- THEME TOGGLE ELEMENT --- */
+        .theme-switch-tray { position: fixed; bottom: 50px; right: 20px; z-index: 2500; }
+        .theme-btn { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 20px; cursor: pointer; font-family: var(--font-sans); font-size: 12px; font-weight: 500; box-shadow: var(--shadow-subtle); letter-spacing: 0.5px; transition: background 0.3s, border-color 0.3s; }
+        .theme-btn:hover { border-color: var(--accent-gold); }
+
+        /* --- AI HELPER SYSTEM --- */
         .ai-badge-container { position: fixed; bottom: 50px; left: 0; z-index: 3000; display: flex; align-items: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .ai-badge-container.minimized { transform: translateX(-40px); }
-        .ai-chat-badge { width: 60px; height: 60px; background: #9b59b6; border-radius: 0 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0,0,0,0.4); border: 2px solid #2c3e50; border-left: none; user-select: none; color: white; font-weight: bold; transition: background 0.2s, border-radius 0.3s; }
-        .ai-badge-container:not(.minimized) .ai-chat-badge { border-radius: 50%; border-left: 2px solid #2c3e50; width: 60px; margin-left: 10px; }
+        .ai-chat-badge { width: 54px; height: 54px; background: var(--accent-purple); border-radius: 0 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; box-shadow: var(--shadow-subtle); border: 1px solid var(--border-color); border-left: none; user-select: none; color: white; transition: transform 0.2s; }
+        .ai-badge-container:not(.minimized) .ai-chat-badge { border-radius: 50%; border-left: 1px solid var(--border-color); width: 54px; margin-left: 10px; }
         
-        .ai-chat-window { position: fixed; bottom: 120px; left: 20px; width: 350px; height: 440px; background: #34495e; border: 2px solid #9b59b6; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 3000; overflow: hidden; }
-        .ai-chat-header { background: #9b59b6; color: white; padding: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .ai-chat-close { background: transparent; border: none; color: white; font-size: 16px; cursor: pointer; font-weight: bold; }
-        .ai-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #2c3e50; }
-        .msg { max-width: 85%; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
-        .msg.helper { background: #34495e; color: #ecf0f1; align-self: flex-start; border-left: 4px solid #9b59b6; }
-        .msg.user { background: #9b59b6; color: white; align-self: flex-end; }
-        .ai-chat-footer { padding: 12px; display: flex; gap: 6px; background: #34495e; border-top: 1px solid #7f8c8d; }
-        .ai-chat-footer input { flex: 1; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; outline: none; }
+        .ai-chat-window { position: fixed; bottom: 120px; left: 20px; width: 340px; height: 420px; background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-purple); border-radius: 6px; display: none; flex-direction: column; box-shadow: var(--shadow-subtle); z-index: 3000; overflow: hidden; }
+        .ai-chat-header { background: var(--bg-main); color: var(--text-main); padding: 14px 18px; font-family: var(--font-serif); font-size: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .ai-chat-close { background: transparent; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; }
+        .ai-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--bg-card); }
+        .msg { max-width: 85%; padding: 11px 15px; border-radius: 4px; font-size: 13px; line-height: 1.5; word-wrap: break-word; font-family: var(--font-sans); }
+        .msg.helper { background: var(--bg-main); color: var(--text-main); align-self: flex-start; border-left: 2px solid var(--accent-purple); }
+        .msg.user { background: var(--accent-purple); color: white; align-self: flex-end; }
+        .ai-chat-footer { padding: 12px; display: flex; gap: 8px; background: var(--bg-main); border-top: 1px solid var(--border-color); }
+        .ai-chat-footer input { flex: 1; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 14px; outline: none; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -152,19 +210,19 @@
 <!-- TOP TICKER BANNER -->
 <div class="ticker-wrap ticker-top move-right">
     <div id="top-marquee-container" class="ticker-content">
-        <span class="ticker-item">🎯 Loading current active project goals...</span>
+        <span class="ticker-item">Loading current active project goals...</span>
     </div>
 </div>
 
 <div class="container">
     <div class="title-purple-box">
-        <h1>🏫GAME CHARACTER SETTINGS🏫</h1>
+        <h1>Game Character Settings</h1>
     </div>
     
     <!-- Goals Panel Box -->
     <div class="card-blue-outline">
         <div class="title-row">
-            <span class="title-label">🎯 Goals for This</span>
+            <span class="title-label">Project Goals Summary</span>
             <select id="time-type" class="time-select" onchange="saveTimeSettings()">
                 <option value="Week">Week</option>
                 <option value="Month">Month</option>
@@ -181,7 +239,7 @@
         </div>
         
         <div style="margin-bottom: 15px;">
-            <input type="text" id="new-goal-input" class="standard-in" placeholder="Type a new goal here...">
+            <input type="text" id="new-goal-input" class="standard-in" placeholder="Write an objective...">
             <button onclick="addGoal()">Add Goal</button>
         </div>
         <ul id="todo-list" class="todo-list"></ul>
@@ -189,11 +247,11 @@
 
     <!-- Character Panel Box -->
     <div class="card-red-outline">
-        <h2>👥 Character Folder Manager</h2>
+        <h2 style="font-family: var(--font-serif); font-weight: 400; margin-top: 0;">Character Archives</h2>
         
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="new-char-input" class="standard-in" placeholder="Type character name here...">
-            <button onclick="addCharacter()" style="background: #3498db;">Add Character</button>
+        <div style="margin-bottom: 25px;">
+            <input type="text" id="new-char-input" class="standard-in" placeholder="Enter name...">
+            <button onclick="addCharacter()">Create Folder</button>
         </div>
 
         <div id="character-folders" class="folder-container"></div>
@@ -203,7 +261,7 @@
             <div class="sketch-header">
                 <div class="sketch-char-name-wrapper">
                     <div class="workspace-pfp-container" onclick="document.getElementById('pfp-uploader').click()">
-                        <img id="workspace-avatar-view" class="workspace-pfp" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>">
+                        <img id="workspace-avatar-view" class="workspace-pfp" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2371717a'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>">
                         <input type="file" id="pfp-uploader" accept="image/*" style="display:none;" onchange="uploadCharacterPfp()">
                     </div>
                     <div id="sketch-title" class="sketch-char-name">Character Name</div>
@@ -219,74 +277,78 @@
 
             <!-- --- LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- -->
             <div id="love-degrees-container-box" class="love-degrees-panel">
-                <h3 style="margin: 0 0 15px 0; color: #e74c3c; font-size: 16px; border-bottom: 1px solid #7f8c8d; padding-bottom: 5px;">❤️ Relationship Values & Love Degrees</h3>
+                <h3 style="margin: 0 0 20px 0; font-family: var(--font-serif); font-weight:400; color: var(--text-main); font-size: 1.2em; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Relationship Parameters & Status Lines</h3>
                 <div id="love-degrees-list-target"></div>
                 
-                <!-- The + Add Box container underneath items -->
-                <div class="add-degree-btn-box" onclick="addNewLoveDegreeItem()" title="Add custom love degree row!">+</div >
+                <div class="add-degree-btn-box" onclick="addNewLoveDegreeItem()" title="Add Custom Parameters">+</div >
             </div>
 
             <div id="idea-boxes" class="idea-boxes-container"></div>
 
             <div id="idea-popup-box" class="idea-popup">
-                <h4 style="margin: 0 0 10px 0;">💡 Write down an idea:</h4>
-                <textarea id="new-idea-text" placeholder="Type setting, skill, story beat or trait..."></textarea>
+                <h4 style="margin: 0 0 12px 0; font-family: var(--font-serif); font-weight:400;">Log a new trait or character idea:</h4>
+                <textarea id="new-idea-text" placeholder="Type trait, combat metric, narrative arc points..."></textarea>
                 
-                <div style="margin: 10px 0; background: #2c3e50; padding: 10px; border-radius: 6px; border: 1px solid #7f8c8d;">
-                    <div class="color-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                        <label style="font-weight: bold; font-size: 14px;">Pick Box Color:</label>
-                        <input type="color" id="idea-color" style="border:none; background:transparent; width:40px; height:40px; cursor:pointer;" value="#e74c3c">
+                <div style="margin: 15px 0; background: var(--bg-card); padding: 14px; border-radius: 4px; border: 1px solid var(--border-color);">
+                    <div class="color-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <label style="font-size: 13px;">Card Hue color:</label>
+                        <input type="color" id="idea-color" style="border:none; background:transparent; width:35px; height:35px; cursor:pointer;" value="#c86b6b">
                     </div>
-                    <div style="font-size: 12px; color: #bdc3c7; margin: 5px 0;">Recent Used Colors:</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin: 5px 0;">Recent Colors:</div>
                     <div id="recent-swatches-container" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
                 </div>
 
-                <div style="margin-top: 10px; display: flex; gap: 10px;">
-                    <button onclick="saveNewIdea()">Save Idea</button>
-                    <button onclick="toggleIdeaPopup()" style="background:#7f8c8d;">Cancel</button>
+                <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button onclick="saveNewIdea()">Commit Idea</button>
+                    <button onclick="toggleIdeaPopup()" style="background:transparent; color: var(--text-main); border: 1px solid var(--border-color);">Cancel</button>
                 </div>
             </div>
 
             <!-- Floating Action Panel Tray Layout -->
             <div class="floating-actions-tray">
-                <div class="action-btn btn-heart" id="heart-tray-toggle" onclick="toggleLoveDegreesPanel()" title="Toggle Love Degree Settings ❤️">❤️</div>
-                <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
-                    🖼️
+                <div class="action-btn btn-heart" id="heart-tray-toggle" onclick="toggleLoveDegreesPanel()" title="Toggle Attributes Matrix">🖤</div>
+                <div class="action-btn btn-photo" title="Upload Media Canvas">
+                    📷
                     <input type="file" id="photo-uploader" accept="image/*" onchange="uploadCharacterMedia('image')">
                 </div>
-                <div class="action-btn btn-word" title="Attach Doc / Word File 📄">
-                    📄
+                <div class="action-btn btn-word" title="Link Manifest Text / Doc">
+                    📝
                     <input type="file" id="doc-uploader" accept=".doc,.docx,.txt" onchange="uploadCharacterMedia('doc')">
                 </div>
-                <div class="action-btn btn-plus" onclick="toggleIdeaPopup()" title="Add Text Idea Box 💡">+</div>
+                <div class="action-btn btn-plus" onclick="toggleIdeaPopup()" title="Add Text Memo">+</div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- OPTIONAL DARK/BRIGHT THEME SWITCH TRAY -->
+<div class="theme-switch-tray">
+    <button class="theme-btn" id="theme-toggle-switch" onclick="switchDisplayTheme()">Mode: Dark Edition</button>
+</div>
+
 <!-- BOTTOM TICKER BANNER -->
 <div class="ticker-wrap ticker-bottom move-left">
     <div id="bottom-marquee-container" class="ticker-content">
-        <span class="ticker-item">⏰ Deadline: Not Set</span>
+        <span class="ticker-item">Deadline: Not Set</span>
     </div>
 </div>
 
 <!-- AI HELPER BADGE -->
 <div class="ai-badge-container minimized" id="ai-badge-wrapper">
-    <div class="ai-chat-badge" id="ai-badge-btn" onclick="handleBadgeClick()">|&lt;</div>
+    <div class="ai-chat-badge" id="ai-badge-btn" onclick="handleBadgeClick()">✨</div>
 </div>
 
 <div class="ai-chat-window" id="ai-window">
     <div class="ai-chat-header">
-        <span>💖 Your Hype-Helper!</span>
-        <button class="ai-chat-close" onclick="closeAiChatWindow()">X</button>
+        <span>Dashboard Companion</span>
+        <button class="ai-chat-close" onclick="closeAiChatWindow()">✕</button>
     </div>
     <div class="ai-messages" id="ai-messages-box">
-        <div class="msg helper">Hi friend!! Let's build something magical! 🚀🌟</div>
+        <div class="msg helper">Welcome back. Let's design something wonderful today. ✨☕</div>
     </div>
     <div class="ai-chat-footer">
-        <input type="text" id="ai-input" placeholder="Type here for a boost of positivity..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-        <button onclick="sendAiMessage()" style="background: #9b59b6; padding: 8px 12px; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">Send</button>
+        <input type="text" id="ai-input" placeholder="Refine your narrative concepts..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+        <button onclick="sendAiMessage()">Send</button>
     </div>
 </div>
 
@@ -313,11 +375,16 @@
     
     let activeCharacterId = null;
     let selectedColorFilter = 'all'; 
-    let defaultColors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
+    let defaultColors = ['#c86b6b', '#5b84a8', '#614d7a', '#b59410', '#4a7c59'];
     let aiIdleTimer = null;
     let globalDeadlineString = "Deadline: Not Set";
 
     window.onload = function() {
+        // Hydrate Theme Preferences
+        const savedTheme = localStorage.getItem('elegantDashboardTheme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-toggle-switch').innerText = savedTheme === 'dark' ? "Mode: Minimal Dark" : "Mode: Classic Light";
+
         if(!localStorage.getItem('recentColors')) {
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
@@ -350,21 +417,30 @@
         startAiIdleTracking();
     };
 
+    // Theme Switch Mechanic
+    window.switchDisplayTheme = function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('elegantDashboardTheme', nextTheme);
+        document.getElementById('theme-toggle-switch').innerText = nextTheme === 'dark' ? "Mode: Minimal Dark" : "Mode: Classic Light";
+    };
+
     function updateTopMarquee() {
         const marqueeBox = document.getElementById('top-marquee-container');
         const activeGoals = localGoals.filter(g => !g.done);
         if(activeGoals.length === 0) {
-            let emptyText = "🎉 All caught up! Create a new goal to track progress here!";
-            marqueeBox.innerHTML = `<span class="ticker-item">${emptyText}</span> &nbsp;&nbsp; `.repeat(5);
+            let emptyText = "All goals finalized. Ready to initialize new production parameters.";
+            marqueeBox.innerHTML = `<span class="ticker-item">${emptyText}</span> &nbsp;&nbsp; `.repeat(3);
             return;
         }
-        let compiledGoals = activeGoals.map(g => `🎯 ${g.text}`).join(' | ');
-        marqueeBox.innerHTML = `<span class="ticker-item">${compiledGoals}</span> &nbsp;&nbsp; `.repeat(6);
+        let compiledGoals = activeGoals.map(g => `✦ ${g.text}`).join('       ');
+        marqueeBox.innerHTML = `<span class="ticker-item">${compiledGoals}</span> &nbsp;&nbsp; `.repeat(4);
     }
 
     function updateBottomMarquee() {
         const marqueeBox = document.getElementById('bottom-marquee-container');
-        marqueeBox.innerHTML = `<span class="ticker-item">⏰ ${globalDeadlineString}</span> &nbsp;&nbsp; `.repeat(8);
+        marqueeBox.innerHTML = `<span class="ticker-item">⚡ ${globalDeadlineString}</span> &nbsp;&nbsp; `.repeat(6);
     }
 
     function updateDeadlineDisplay(dateStr, timeStr) {
@@ -380,10 +456,10 @@
             const year = parts[0];
             const monthIdx = parseInt(parts[1], 10) - 1;
             const day = parts[2];
-            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const formattedMonth = months[monthIdx] || "MMM";
-            let displayString = `Deadline: ${day}/${formattedMonth}/${year}`;
-            if(timeStr) displayString += ` at ${timeStr}`;
+            let displayString = `Target Lock: ${day} ${formattedMonth} ${year}`;
+            if(timeStr) displayString += ` @ ${timeStr}`;
             globalDeadlineString = displayString;
             lbl.innerText = globalDeadlineString;
             updateBottomMarquee();
@@ -405,7 +481,7 @@
     function renderGoals() {
         let listHtml = '';
         localGoals.forEach((goal) => {
-            listHtml += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal('${goal.id}', ${goal.done})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal('${goal.id}')">Delete</button></li>`;
+            listHtml += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal('${goal.id}', ${goal.done})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal('${goal.id}')">Remove</button></li>`;
         });
         document.getElementById('todo-list').innerHTML = listHtml;
     }
@@ -427,19 +503,19 @@
         let folderArea = document.getElementById('character-folders');
         let html = '';
         if(localChars.length === 0) {
-            folderArea.innerHTML = '<p style="color: #7f8c8d; font-style: italic;">No characters added yet.</p>';
+            folderArea.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; font-style: italic;">No records found.</p>';
             document.getElementById('sketch-workspace-box').style.display = 'none';
             return;
         }
         localChars.forEach((char) => {
             let isActive = char.id === activeCharacterId ? 'active' : '';
-            let avatarImg = char.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
+            let avatarImg = char.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2371717a'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
             
             html += `
                 <div class="char-folder ${isActive}" onclick="openCharacterFolder('${char.id}', '${char.name.replace(/'/g, "\\'")}')">
                     <img class="char-pfp-avatar" src="${avatarImg}">
                     <span>${char.name}</span>
-                    <button class="char-delete" onclick="event.stopPropagation(); deleteCharacter('${char.id}')">X</button>
+                    <button class="char-delete" onclick="event.stopPropagation(); deleteCharacter('${char.id}')">✕</button>
                 </div>`;
         });
         folderArea.innerHTML = html;
@@ -448,7 +524,7 @@
             let current = localChars.find(c => c.id === activeCharacterId);
             if(current) {
                 document.getElementById('sketch-title').innerText = current.name;
-                document.getElementById('workspace-avatar-view').src = current.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
+                document.getElementById('workspace-avatar-view').src = current.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2371717a'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
                 
                 localLoveDegrees = current.loveDegrees || [];
                 renderLoveDegreesList();
@@ -475,7 +551,7 @@
         let target = document.getElementById('love-degrees-list-target');
         let html = '';
         if(localLoveDegrees.length === 0) {
-            target.innerHTML = `<p style="color: #bdc3c7; font-size: 13px; font-style: italic; margin-bottom: 15px;">Click the + button below to create custom love meters or status stats!</p>`;
+            target.innerHTML = `<p style="color: var(--text-muted); font-size: 13px; font-style: italic; margin-bottom: 20px;">Deploy customized attributes metrics via the action anchor below.</p>`;
             return;
         }
 
@@ -483,11 +559,11 @@
             html += `
                 <div class="love-degree-item">
                     <div class="love-degree-header">
-                        <input type="text" class="love-degree-title-in" value="${item.title || ''}" placeholder="Love degree (?):" onchange="updateLoveDegreeData(${index}, 'title', this.value)">
-                        <input type="text" class="love-degree-rate-in" value="${item.rate || ''}" placeholder="0-10%" onchange="updateLoveDegreeData(${index}, 'rate', this.value)">
-                        <button class="love-degree-delete-btn" onclick="deleteLoveDegreeItem(${index})">Delete ✖</button>
+                        <input type="text" class="love-degree-title-in" value="${item.title || ''}" placeholder="Attribute Name:" onchange="updateLoveDegreeData(${index}, 'title', this.value)">
+                        <input type="text" class="love-degree-rate-in" value="${item.rate || ''}" placeholder="Value/Tier" onchange="updateLoveDegreeData(${index}, 'rate', this.value)">
+                        <button class="love-degree-delete-btn" onclick="deleteLoveDegreeItem(${index})">Delete</button>
                     </div>
-                    <textarea class="love-degree-desc" placeholder="Type behavior context, story notes or condition detail rules here..." onchange="updateLoveDegreeData(${index}, 'desc', this.value)">${item.desc || ''}</textarea>
+                    <textarea class="love-degree-desc" placeholder="Operational rules, state conditions or narrative modifiers..." onchange="updateLoveDegreeData(${index}, 'desc', this.value)">${item.desc || ''}</textarea>
                 </div>
             `;
         });
@@ -496,11 +572,7 @@
 
     window.addNewLoveDegreeItem = async function() {
         if(!activeCharacterId) return;
-        localLoveDegrees.push({
-            title: "Love degree(?):",
-            rate: "4%",
-            desc: ""
-        });
+        localLoveDegrees.push({ title: "Parameter Node", rate: "Tier I", desc: "" });
         await updateDoc(doc(db, "characters", activeCharacterId), { loveDegrees: localLoveDegrees });
     };
 
@@ -563,37 +635,37 @@
         let boxContainer = document.getElementById('idea-boxes');
         let html = '';
         if (localIdeas.length === 0) {
-            boxContainer.innerHTML = '<p style="color: #7f8c8d; text-align: center; font-style: italic; margin-top:30px;">Empty folder. Add photos, word assets, or ideas down below!</p>';
+            boxContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; font-style: italic; margin-top:40px; font-size: 13px;">Vault empty. Link system resources or log data points below.</p>';
             return;
         }
         localIdeas.forEach((idea) => {
             let type = idea.type || 'text';
             if (type === 'image') {
                 html += `
-                    <div class="media-box" data-text="photo image media file" data-color="media">
-                        <img src="${idea.data}" alt="Uploaded Character Art">
-                        <span style="font-size:12px; color:#bdc3c7;">🖼️ Character Visual Asset</span>
-                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
+                    <div class="media-box" data-text="photo image media canvas visual asset" data-color="media">
+                        <img src="${idea.data}" alt="Canvas Matrix Asset">
+                        <span style="font-size:11px; color: var(--text-muted);">Canvas Manifest Asset</span>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">✕</button>
                     </div>`;
             } else if (type === 'doc') {
                 html += `
-                    <div class="media-box" data-text="${idea.name.toLowerCase()} doc file word document text" data-color="media">
+                    <div class="media-box" data-text="${idea.name.toLowerCase()} doc file text resource script" data-color="media">
                         <div class="doc-badge">
-                            <span style="font-size: 20px;">📄</span>
+                            <span style="font-size: 16px;">📄</span>
                             <div style="text-align: left;">
-                                <div style="color: white; font-size:14px;">${idea.name}</div>
-                                <div style="color: #7f8c8d; font-size:11px; font-weight:normal;">Attached Word/Text Resource</div>
+                                <div style="color: var(--text-main); font-size:13px; font-weight:500;">${idea.name}</div>
+                                <div style="color: var(--text-muted); font-size:11px; font-weight:normal;">Integrated Structural Script</div>
                             </div>
                         </div>
-                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">✕</button>
                     </div>`;
             } else {
                 let text = idea.text || '';
-                let color = idea.color || '#e74c3c';
+                let color = idea.color || '#c86b6b';
                 html += `
                     <div class="red-idea-box" style="background: ${color};" data-text="${text.toLowerCase()}" data-color="${color}">
                         ${text}
-                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">✕</button>
                     </div>`;
             }
         });
@@ -635,7 +707,7 @@
         let container = document.getElementById('recent-swatches-container');
         let html = '';
         recents.forEach(color => {
-            html += `<div class="swatch" style="width:25px; height:25px; border-radius:50%; border:2px solid white; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.3); background: ${color};" onclick="setPickerColor('${color}')"></div>`;
+            html += `<div class="swatch" style="width:20px; height:20px; border-radius:50%; border:1px solid white; cursor:pointer; background: ${color};" onclick="setPickerColor('${color}')"></div>`;
         });
         container.innerHTML = html;
     }
@@ -664,15 +736,15 @@
         let uniqueColors = [];
         localIdeas.forEach(idea => {
             if(idea.type === 'text' || !idea.type) {
-                let color = idea.color || '#e74c3c';
+                let color = idea.color || '#c86b6b';
                 if(!uniqueColors.includes(color)) uniqueColors.push(color);
             }
         });
         let activeAll = selectedColorFilter === 'all' ? 'active' : '';
-        let html = `<div class="filter-ball all-colors-ball ${activeAll}" title="Show All Content" onclick="selectColorBallFilter('all', this)"></div>`;
+        let html = `<div class="filter-ball all-colors-ball ${activeAll}" title="View Collective Elements" onclick="selectColorBallFilter('all', this)"></div>`;
         uniqueColors.forEach(c => {
             let activeClass = selectedColorFilter === c ? 'active' : '';
-            html += `<div class="filter-ball ${activeClass}" style="background: ${c};" title="Filter by color" onclick="selectColorBallFilter('${c}', this)"></div>`;
+            html += `<div class="filter-ball ${activeClass}" style="background: ${c};" title="Isolate Node Class" onclick="selectColorBallFilter('${c}', this)"></div>`;
         });
         container.innerHTML = html;
     }
@@ -703,13 +775,13 @@
     };
 
     window.deleteIdea = async function(ideaId) {
-        if (confirm("Remove this item from your character folder?")) {
+        if (confirm("Verify disposal of chosen resource log?")) {
             await deleteDoc(doc(db, "characters", activeCharacterId, "ideas", ideaId));
         }
     };
 
     window.deleteCharacter = async function(id) {
-        if (confirm("Delete this character folder?")) {
+        if (confirm("Purge selected folder directory from core matrix?")) {
             await deleteDoc(doc(db, "characters", id));
         }
     };
@@ -721,7 +793,7 @@
         const chatWin = document.getElementById('ai-window');
         if (wrapper.classList.contains('minimized')) {
             wrapper.classList.remove('minimized');
-            badgeBtn.innerHTML = ":D";
+            badgeBtn.innerHTML = "✕";
             startAiIdleTracking();
         } else {
             if (chatWin.style.display === 'none' || chatWin.style.display === '') {
@@ -745,7 +817,7 @@
             const chatWin = document.getElementById('ai-window');
             if (chatWin.style.display !== 'flex') {
                 wrapper.classList.add('minimized');
-                badgeBtn.innerHTML = "|&lt;";
+                badgeBtn.innerHTML = "✨";
             }
         }, 4000);
     }
@@ -763,13 +835,13 @@
         msgBox.scrollTop = msgBox.scrollHeight;
 
         setTimeout(() => {
-            msgBox.innerHTML += `<div class="msg helper" id="ai-typing">Reading your brilliance... 🔍✨💖</div>`;
+            msgBox.innerHTML += `<div class="msg helper" id="ai-typing">Parsing structural metrics...</div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         }, 400);
 
         setTimeout(() => {
             document.getElementById('ai-typing').remove();
-            let reply = `Ooooh, I love this! 😍 Everything looks correct and matches your game vibes flawlessly!`;
+            let reply = `Incredible concept. The structural framing looks exceptional and matches the overarching style direction beautifully.`;
             msgBox.innerHTML += `<div class="msg helper">${reply}</div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         }, 1300);
