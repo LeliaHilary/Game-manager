@@ -11,11 +11,6 @@
         .card { background: #34495e; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; }
         h2 { margin-top: 0; color: #e74c3c; }
         
-        /* Local Backup Bar */
-        .local-backup-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; }
-        .btn-backup { background: #e67e22 !important; font-size: 13px !important; padding: 6px 12px !important; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-restore { background: #2ecc71 !important; font-size: 13px !important; padding: 6px 12px !important; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-
         /* Time Selector Layout */
         .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px dashed #7f8c8d; }
         .title-label { font-size: 1.5em; font-weight: bold; color: #e74c3c; margin: 0; }
@@ -119,13 +114,6 @@
 
 <div class="container">
     <h1>🎮 Game Dev HQ 🎮</h1>
-
-    <!-- 💾 Manual Backup Security Bar 💾 -->
-    <div class="local-backup-bar">
-        <button class="btn-backup" onclick="downloadDataBackup()">💾 Save Dashboard to iPad</button>
-        <button class="btn-restore" onclick="document.getElementById('emergency-loader').click()">📂 Load iPad Backup</button>
-        <input type="file" id="emergency-loader" accept=".json" style="display: none;" onchange="importDataBackup(event)">
-    </div>
     
     <!-- Goals Card -->
     <div class="card">
@@ -224,7 +212,7 @@
         <button class="ai-chat-close" onclick="toggleAiChat()">X</button>
     </div>
     <div class="ai-messages" id="ai-messages-box">
-        <div class="msg helper">Hi friend!! I am SO excited to help you build your game today! 🎉 You are doing a fantastic job, and your ideas are completely brilliant. Whenever you need some cheering up, a dialogue check, or some good vibes, I'm right here! Let's build something magical! 🚀🌟</div>
+        <div class="msg helper">Hi friend!! I am SO excited to help you build your game today! 🎉 Let's build something magical! 🚀🌟</div>
     </div>
     <div class="ai-chat-footer">
         <input type="text" id="ai-input" placeholder="Type here for a boost of positivity..." onkeydown="if(event.key==='Enter') sendAiMessage()">
@@ -232,12 +220,10 @@
     </div>
 </div>
 
-<!-- Firebase SDK Integration scripts -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, doc, onSnapshot, setDoc, addDoc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-js/../../firebase-firestore.js";
 
-    // Embedded configuration parameters
     const firebaseConfig = {
         apiKey: "AIzaSyCsqsL4TePZwWhOD6eB0w14Pgi8X1LbHWA",
         authDomain: "game-manager-c30d5.firebaseapp.com",
@@ -247,14 +233,15 @@
         appId: "1:872084827373:web:034270ad67efadc62370e4"
     };
 
-    // Initialize Database
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const docRef = doc(db, "workspace", "dashboardData");
 
-    // Core Local Arrays
-    let globalState = { goals: [], chars: [], timeType: "Week", timeValue: "1" };
-    let activeCharacterIndex = null;
+    // Dynamic state arrays
+    let localGoals = [];
+    let localChars = [];
+    let localIdeas = [];
+    
+    let activeCharacterId = null;
     let selectedColorFilter = 'all'; 
     let defaultColors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
 
@@ -263,153 +250,139 @@
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
 
-        // Live Real-Time Data Sync listener! 
-        onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                globalState = docSnap.data();
-                document.getElementById('time-type').value = globalState.timeType || "Week";
-                document.getElementById('time-value').value = globalState.timeValue || "1";
-                renderGoals();
-                renderCharacters();
-                if(activeCharacterIndex !== null) {
-                    renderIdeaBoxes();
-                    buildColorBallFilters();
-                }
-            } else {
-                setDoc(docRef, globalState);
+        // 1. Listen to Time Configurations
+        onSnapshot(doc(db, "meta", "timeSettings"), (docSnap) => {
+            if(docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('time-type').value = data.timeType || "Week";
+                document.getElementById('time-value').value = data.timeValue || "1";
             }
+        });
+
+        // 2. Multi-user Live Sync for Goals
+        onSnapshot(query(collection(db, "goals"), orderBy("timestamp", "asc")), (snapshot) => {
+            localGoals = [];
+            snapshot.forEach(doc => {
+                localGoals.push({ id: doc.id, ...doc.data() });
+            });
+            renderGoals();
+        });
+
+        // 3. Multi-user Live Sync for Characters
+        onSnapshot(query(collection(db, "characters"), orderBy("timestamp", "asc")), (snapshot) => {
+            localChars = [];
+            snapshot.forEach(doc => {
+                localChars.push({ id: doc.id, ...doc.data() });
+            });
+            renderCharacters();
         });
     };
 
-    async function pushToCloud() {
-        await setDoc(docRef, globalState);
-    }
-
     window.saveTimeSettings = function() {
-        globalState.timeType = document.getElementById('time-type').value;
-        globalState.timeValue = document.getElementById('time-value').value;
-        pushToCloud();
-    }
-
-    /* --- EMERGENCY IPAD MANUAL BACKUP UTILITIES (SAFARI COMPATIBLE) --- */
-    window.downloadDataBackup = function() {
-        const jsonStr = JSON.stringify(globalState);
-        const blob = new Blob([jsonStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'game_hq_dashboard_backup.json';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        setDoc(doc(db, "meta", "timeSettings"), {
+            timeType: document.getElementById('time-type').value,
+            timeValue: document.getElementById('time-value').value
+        });
     };
 
-    window.importDataBackup = function(event) {
-        const fileReader = new FileReader();
-        fileReader.onload = function(e) {
-            try {
-                const parsed = JSON.parse(e.target.result);
-                if(parsed.goals || parsed.chars) {
-                    globalState = parsed;
-                    pushToCloud();
-                    alert("Dashboard successfully recovered and loaded from iPad backup! 🎉");
-                } else {
-                    alert("Invalid backup file layout.");
-                }
-            } catch(err) {
-                alert("Error reading file.");
-            }
-        };
-        fileReader.readAsText(event.target.files[0]);
-    };
-
-    /* --- GOALS SYSTEM --- */
+    /* --- GOALS MULTI-USER --- */
     function renderGoals() {
         let listHtml = '';
-        (globalState.goals || []).forEach((goal, index) => {
-            listHtml += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal(${index})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal(${index})">Delete</button></li>`;
+        localGoals.forEach((goal) => {
+            listHtml += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal('${goal.id}', ${goal.done})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal('${goal.id}')">Delete</button></li>`;
         });
         document.getElementById('todo-list').innerHTML = listHtml;
     }
-    window.addGoal = function() {
+    window.addGoal = async function() {
         let input = document.getElementById('new-goal-input');
         if (input.value.trim() === '') return;
-        if(!globalState.goals) globalState.goals = [];
-        globalState.goals.push({ text: input.value, done: false });
+        await addDoc(collection(db, "goals"), {
+            text: input.value,
+            done: false,
+            timestamp: Date.now()
+        });
         input.value = '';
-        pushToCloud();
-    }
-    window.toggleGoal = function(index) {
-        globalState.goals[index].done = !globalState.goals[index].done;
-        pushToCloud();
-    }
-    window.deleteGoal = function(index) {
-        if (confirm(`Delete: "${globalState.goals[index].text}"?`)) {
-            globalState.goals.splice(index, 1);
-            pushToCloud();
-        }
-    }
+    };
+    window.toggleGoal = async function(id, currentStatus) {
+        await updateDoc(doc(db, "goals", id), { done: !currentStatus });
+    };
+    window.deleteGoal = async function(id) {
+        await deleteDoc(doc(db, "goals", id));
+    };
 
-    /* --- CHARACTERS MANAGER --- */
+    /* --- CHARACTER FOLDERS MULTI-USER --- */
     function renderCharacters() {
         let folderArea = document.getElementById('character-folders');
         let html = '';
-        let chars = globalState.chars || [];
-        if(chars.length === 0) {
+        if(localChars.length === 0) {
             folderArea.innerHTML = '<p style="color: #7f8c8d; font-style: italic;">No characters added yet.</p>';
             document.getElementById('sketch-workspace-box').style.display = 'none';
             return;
         }
-        chars.forEach((char, index) => {
-            let isActive = index === activeCharacterIndex ? 'active' : '';
-            html += `<div class="char-folder ${isActive}" onclick="openCharacterFolder(${index})">📁 ${char.name}<button class="char-delete" onclick="event.stopPropagation(); deleteCharacter(${index})">X</button></div>`;
+        localChars.forEach((char) => {
+            let isActive = char.id === activeCharacterId ? 'active' : '';
+            html += `<div class="char-folder ${isActive}" onclick="openCharacterFolder('${char.id}', '${char.name.replace(/'/g, "\\'")}')">📁 ${char.name}<button class="char-delete" onclick="event.stopPropagation(); deleteCharacter('${char.id}')">X</button></div>`;
         });
         folderArea.innerHTML = html;
+        
+        // Keep name updated if current open folder is edited
+        if (activeCharacterId) {
+            let current = localChars.find(c => c.id === activeCharacterId);
+            if(current) document.getElementById('sketch-title').innerText = current.name;
+            else document.getElementById('sketch-workspace-box').style.display = 'none';
+        }
     }
 
-    window.addCharacter = function() {
+    window.addCharacter = async function() {
         let input = document.getElementById('new-char-input');
         let name = input.value.trim();
         if (name === '') return;
-        if(!globalState.chars) globalState.chars = [];
-        globalState.chars.push({ name: name, ideas: [] });
-        activeCharacterIndex = globalState.chars.length - 1;
+        const newDoc = await addDoc(collection(db, "characters"), {
+            name: name,
+            timestamp: Date.now()
+        });
+        activeCharacterId = newDoc.id;
         input.value = '';
-        pushToCloud();
-    }
+    };
 
-    window.openCharacterFolder = function(index) {
-        activeCharacterIndex = index;
+    let unsubscribeIdeas = null;
+    window.openCharacterFolder = function(id, name) {
+        activeCharacterId = id;
         renderCharacters();
         document.getElementById('sketch-workspace-box').style.display = 'block';
-        document.getElementById('sketch-title').innerText = globalState.chars[index].name;
+        document.getElementById('sketch-title').innerText = name;
         document.getElementById('idea-search').value = '';
         selectedColorFilter = 'all'; 
-        renderIdeaBoxes();
-        buildColorBallFilters(); 
         document.getElementById('idea-popup-box').style.display = 'none';
-    }
+
+        if(unsubscribeIdeas) unsubscribeIdeas();
+
+        // Target active character's unique nested idea subcollection
+        unsubscribeIdeas = onSnapshot(query(collection(db, "characters", id, "ideas"), orderBy("timestamp", "asc")), (snapshot) => {
+            localIdeas = [];
+            snapshot.forEach(doc => {
+                localIdeas.push({ id: doc.id, ...doc.data() });
+            });
+            renderIdeaBoxes();
+            buildColorBallFilters();
+        });
+    };
 
     function renderIdeaBoxes() {
-        if (activeCharacterIndex === null || !globalState.chars[activeCharacterIndex]) return;
-        let ideas = globalState.chars[activeCharacterIndex].ideas || [];
         let boxContainer = document.getElementById('idea-boxes');
         let html = '';
-
-        if (ideas.length === 0) {
+        if (localIdeas.length === 0) {
             boxContainer.innerHTML = '<p style="color: #7f8c8d; text-align: center; font-style: italic; margin-top:30px;">Empty folder. Drop photos, word files, or text notes down below!</p>';
             return;
         }
-
-        ideas.forEach((idea, index) => {
+        localIdeas.forEach((idea) => {
             let type = idea.type || 'text';
             if (type === 'image') {
                 html += `
                     <div class="media-box" data-text="photo image media file" data-color="media">
                         <img src="${idea.data}" alt="Uploaded Character Art">
                         <span style="font-size:12px; color:#bdc3c7;">🖼️ Character Visual Asset</span>
-                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
                     </div>`;
             } else if (type === 'doc') {
                 html += `
@@ -421,7 +394,7 @@
                                 <div style="color: #7f8c8d; font-size:11px; font-weight:normal;">Attached Word/Text Resource</div>
                             </div>
                         </div>
-                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
                     </div>`;
             } else {
                 let text = idea.text || '';
@@ -429,38 +402,32 @@
                 html += `
                     <div class="red-idea-box" style="background: ${color};" data-text="${text.toLowerCase()}" data-color="${color}">
                         ${text}
-                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                        <button class="idea-box-delete" onclick="deleteIdea('${idea.id}')">X</button>
                     </div>`;
             }
         });
         boxContainer.innerHTML = html;
+        filterIdeas();
     }
 
     window.uploadCharacterMedia = function(type) {
-        if (activeCharacterIndex === null) return;
+        if (!activeCharacterId) return;
         let fileInput = type === 'image' ? document.getElementById('photo-uploader') : document.getElementById('doc-uploader');
         let file = fileInput.files[0];
         if (!file) return;
 
         let reader = new FileReader();
-        reader.onload = function(e) {
-            if (!globalState.chars[activeCharacterIndex].ideas) globalState.chars[activeCharacterIndex].ideas = [];
-            
-            if (type === 'image') {
-                globalState.chars[activeCharacterIndex].ideas.push({ type: 'image', data: e.target.result });
-            } else {
-                globalState.chars[activeCharacterIndex].ideas.push({ type: 'doc', name: file.name });
-            }
+        reader.onload = async function(e) {
+            let ideaData = { type: type, timestamp: Date.now() };
+            if (type === 'image') ideaData.data = e.target.result;
+            else ideaData.name = file.name;
+
+            await addDoc(collection(db, "characters", activeCharacterId, "ideas"), ideaData);
             fileInput.value = ""; 
-            pushToCloud();
         };
-        
-        if (type === 'image') {
-            reader.readAsDataURL(file);
-        } else {
-            reader.readAsText(file.slice(0, 100)); 
-        }
-    }
+        if (type === 'image') reader.readAsDataURL(file);
+        else reader.readAsText(file.slice(0, 100));
+    };
 
     window.toggleIdeaPopup = function() {
         let popup = document.getElementById('idea-popup-box');
@@ -472,7 +439,7 @@
             popup.style.display = 'none';
             document.getElementById('new-idea-text').value = '';
         }
-    }
+    };
 
     function renderRecentSwatches() {
         let recents = JSON.parse(localStorage.getItem('recentColors')) || defaultColors;
@@ -486,15 +453,19 @@
 
     window.setPickerColor = function(color) {
         document.getElementById('idea-color').value = color;
-    }
+    };
 
-    window.saveNewIdea = function() {
+    window.saveNewIdea = async function() {
         let txt = document.getElementById('new-idea-text').value.trim();
         let chosenColor = document.getElementById('idea-color').value;
-        if (txt === '') return;
+        if (txt === '' || !activeCharacterId) return;
 
-        if (!globalState.chars[activeCharacterIndex].ideas) globalState.chars[activeCharacterIndex].ideas = [];
-        globalState.chars[activeCharacterIndex].ideas.push({ type: 'text', text: txt, color: chosenColor });
+        await addDoc(collection(db, "characters", activeCharacterId, "ideas"), {
+            type: 'text',
+            text: txt,
+            color: chosenColor,
+            timestamp: Date.now()
+        });
 
         let recents = JSON.parse(localStorage.getItem('recentColors')) || defaultColors;
         recents = recents.filter(c => c !== chosenColor);
@@ -503,15 +474,13 @@
         localStorage.setItem('recentColors', JSON.stringify(recents));
         
         toggleIdeaPopup();
-        pushToCloud();
-    }
+    };
 
     function buildColorBallFilters() {
-        let ideas = globalState.chars[activeCharacterIndex].ideas || [];
         let container = document.getElementById('color-ball-container');
         let uniqueColors = [];
         
-        ideas.forEach(idea => {
+        localIdeas.forEach(idea => {
             if(idea.type === 'text' || !idea.type) {
                 let color = idea.color || '#e74c3c';
                 if(!uniqueColors.includes(color)) uniqueColors.push(color);
@@ -536,7 +505,7 @@
         }
         element.classList.add('active');
         filterIdeas();
-    }
+    };
 
     window.filterIdeas = function() {
         let textQuery = document.getElementById('idea-search').value.toLowerCase();
@@ -556,23 +525,19 @@
                 containers[i].style.display = 'none';
             }
         }
-    }
+    };
 
-    window.deleteIdea = function(index) {
+    window.deleteIdea = async function(ideaId) {
         if (confirm("Remove this item from your character folder?")) {
-            globalState.chars[activeCharacterIndex].ideas.splice(index, 1);
-            pushToCloud();
+            await deleteDoc(doc(db, "characters", activeCharacterId, "ideas", ideaId));
         }
-    }
+    };
 
-    window.deleteCharacter = function(index) {
-        if (confirm(`Delete character folder for "${globalState.chars[index].name}"?`)) {
-            globalState.chars.splice(index, 1);
-            if (activeCharacterIndex === index) activeCharacterIndex = null;
-            else if (activeCharacterIndex > index) activeCharacterIndex--;
-            pushToCloud();
+    window.deleteCharacter = async function(id) {
+        if (confirm("Delete this character folder?")) {
+            await deleteDoc(doc(db, "characters", id));
         }
-    }
+    };
 
     /* --- FLOATING AI HELPER --- */
     window.toggleAiChat = function() {
@@ -583,7 +548,7 @@
         } else {
             win.style.display = 'none';
         }
-    }
+    };
 
     window.sendAiMessage = function() {
         let inputEl = document.getElementById('ai-input');
@@ -619,7 +584,7 @@
             msgBox.innerHTML += `<div class="msg helper">${reply}</div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         }, 1300);
-    }
+    };
 </script>
 </body>
 </html>
