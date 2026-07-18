@@ -11,6 +11,11 @@
         .card { background: #34495e; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; }
         h2 { margin-top: 0; color: #e74c3c; }
         
+        /* Local Backup Bar */
+        .local-backup-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; }
+        .btn-backup { background: #e67e22 !important; font-size: 13px !important; padding: 6px 12px !important; }
+        .btn-restore { background: #2ecc71 !important; font-size: 13px !important; padding: 6px 12px !important; }
+
         /* Login Screen Overlay */
         .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: #34495e; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; width: 320px; border: 2px solid #3498db; }
@@ -133,6 +138,13 @@
 
 <div class="container">
     <h1>🎮 Game Dev HQ 🎮</h1>
+
+    <!-- 💾 Manual Backup Security Bar 💾 -->
+    <div class="local-backup-bar">
+        <button class="btn-backup" onclick="window.downloadDataBackup()">💾 Save Dashboard to iPad</button>
+        <button class="btn-restore" onclick="document.getElementById('emergency-loader').click()">📂 Load iPad Backup</button>
+        <input type="file" id="emergency-loader" accept=".json" style="display: none;" onchange="window.importDataBackup(event)">
+    </div>
     
     <!-- Goals Card -->
     <div class="card">
@@ -288,7 +300,6 @@
                     buildColorBallFilters();
                 }
             } else {
-                // Set baseline template document if entirely empty cloud instance
                 setDoc(docRef, globalState);
             }
         });
@@ -316,6 +327,35 @@
         globalState.timeValue = document.getElementById('time-value').value;
         pushToCloud();
     }
+
+    /* --- EMERGENCY IPAD MANUAL BACKUP UTILITIES --- */
+    window.downloadDataBackup = function() {
+        const jsonStr = JSON.stringify(globalState);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(jsonStr);
+        const link = document.createElement('a');
+        link.setAttribute('href', dataUri);
+        link.setAttribute('download', 'game_hq_dashboard_backup.json');
+        link.click();
+    };
+
+    window.importDataBackup = function(event) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(e) {
+            try {
+                const parsed = JSON.parse(e.target.result);
+                if(parsed.goals || parsed.chars) {
+                    globalState = parsed;
+                    pushToCloud();
+                    alert("Dashboard successfully recovered and loaded from iPad backup! 🎉");
+                } else {
+                    alert("Invalid backup file layout.");
+                }
+            } catch(err) {
+                alert("Error reading file.");
+            }
+        };
+        fileReader.readAsText(event.target.files[0]);
+    };
 
     /* --- GOALS SYSTEM --- */
     function renderGoals() {
