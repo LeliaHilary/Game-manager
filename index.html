@@ -17,7 +17,7 @@
         
         .ticker-content { display: inline-flex; white-space: nowrap; padding-left: 100%; gap: 50px; }
         
-        /* Animation loops moving left and right */
+        /* Animation loops */
         @keyframes marquee-left {
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
@@ -41,7 +41,6 @@
         /* --- RED CONTAINER (CHARACTER WORKSPACE CONTAINER) --- */
         .card-red-outline { background: #34495e; padding: 30px; margin-bottom: 25px; border-radius: 12px; border: 4px solid #e74c3c; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
 
-        /* Layout elements inside panels */
         .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #7f8c8d; flex-wrap: wrap; }
         .title-label { font-size: 1.6em; font-weight: bold; color: #e74c3c; margin: 0; }
         select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.4em; font-weight: bold; border-radius: 4px; padding: 4px 8px; cursor: pointer; outline: none; }
@@ -59,7 +58,6 @@
         .btn-delete { background: #c0392b; padding: 6px 12px; font-size: 13px; margin-left: 10px; color: white; border-radius: 4px; }
         .btn-delete:hover { background: #962d22; }
 
-        /* Rendered Goals Styles */
         .todo-list { list-style: none; padding: 0; margin-top: 20px; }
         .todo-item { display: flex; align-items: center; justify-content: space-between; background: #2c3e50; padding: 16px 20px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
         .todo-left { display: flex; align-items: center; gap: 16px; width: 80%; }
@@ -67,17 +65,24 @@
         .todo-item input[type="checkbox"] { transform: scale(1.6); cursor: pointer; margin-right: 6px; }
         .completed { text-decoration: line-through; color: #7f8c8d; opacity: 0.6; }
 
-        /* Character Folder Styles */
+        /* Character Folder Manager Grid UI Updates */
         .folder-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
-        .char-folder { background: #3498db; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .char-folder { background: #3498db; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 10px; font-size: 15px; position: relative; }
         .char-folder:hover { background: #2980b9; }
         .char-folder.active { background: #e67e22; }
         .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; }
         .char-delete:hover { background: #c0392b; }
 
+        /* Social Media Style PFP Circle */
+        .char-pfp-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; background: #7f8c8d; object-fit: cover; display: inline-block; vertical-align: middle; }
+        .workspace-pfp-container { position: relative; display: inline-block; cursor: pointer; }
+        .workspace-pfp-container:hover::after { content: 'Change PFP 📸'; position: absolute; bottom: -20px; left: 0; font-size: 10px; background: rgba(0,0,0,0.8); color: white; padding: 2px 5px; border-radius: 4px; white-space: nowrap; }
+        .workspace-pfp { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #3498db; background: #7f8c8d; object-fit: cover; }
+
         /* --- EXTENDED EXPANDABLE WORKSPACE --- */
         .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 12px; padding: 25px; margin-top: 20px; border: 3px solid #34495e; min-height: 450px; position: relative; }
         .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #34495e; padding-bottom: 15px; gap: 15px; flex-wrap: wrap; }
+        .sketch-char-name-wrapper { display: flex; align-items: center; gap: 15px; }
         .sketch-char-name { font-size: 1.6em; font-weight: bold; border: 2px solid #3498db; padding: 6px 20px; background: #34495e; border-radius: 8px; color: #3498db; }
         
         .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -91,6 +96,19 @@
         .sketch-search-banner { background: #2980b9; border: 2px solid #2c3e50; border-radius: 6px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; }
         .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; font-weight: bold; outline: none; width: 130px; }
 
+        /* --- HEART STATS PANEL AND WORKSPACE CARDS --- */
+        .relationship-status-card { display: flex; background: #1a252f; border: 2px dashed #e74c3c; border-radius: 12px; padding: 15px; margin-bottom: 20px; align-items: center; gap: 20px; }
+        .heart-icon-big { font-size: 38px; animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.12); }
+            40% { transform: scale(1); }
+        }
+        .rel-stat-inputs { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+        .rel-percent-row { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 16px; color: #f1c40f; }
+        .rel-percent-row input[type="number"] { width: 65px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 4px 8px; font-weight: bold; text-align: center; font-size: 15px; }
+        .rel-treatment-desc { font-style: italic; color: #bdc3c7; font-size: 14px; margin-top: 4px; }
+
         .idea-boxes-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 90px; }
         .red-idea-box { color: white; border: 2px solid #2c3e50; border-radius: 12px; padding: 18px; font-weight: bold; box-shadow: 3px 3px 0px #1a252f; position: relative; word-wrap: break-word; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); font-size: 15px; }
         
@@ -101,22 +119,20 @@
         .idea-box-delete { position: absolute; top: 10px; right: 10px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; align-items: center; justify-content: center; }
         .idea-box-delete:hover { background: #c0392b; }
 
+        /* Floating action buttons tray */
         .floating-actions-tray { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 12px; align-items: center; z-index: 10; }
-        .action-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; }
+        .action-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; user-select: none; }
         .action-btn:hover { transform: scale(1.08); }
         .action-btn input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .btn-plus { background: #2ecc71; font-size: 28px; font-weight: bold; }
         .btn-photo { background: #3498db; }
         .btn-word { background: #e67e22; }
+        .btn-heart { background: #e74c3c; font-size: 20px; }
         .idea-popup { background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
 
         /* --- AUTO-SLIDING EDGE CHAT BADGE SYSTEM --- */
         .ai-badge-container { position: fixed; bottom: 50px; left: 0; z-index: 3000; display: flex; align-items: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        /* State when sitting minimized on edge */
         .ai-badge-container.minimized { transform: translateX(-40px); }
-        
-        /* The structural button layout toggling graphic looks */
         .ai-chat-badge { width: 60px; height: 60px; background: #9b59b6; border-radius: 0 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0,0,0,0.4); border: 2px solid #2c3e50; border-left: none; user-select: none; color: white; font-weight: bold; transition: background 0.2s, border-radius 0.3s; }
         .ai-badge-container:not(.minimized) .ai-chat-badge { border-radius: 50%; border-left: 2px solid #2c3e50; width: 60px; margin-left: 10px; }
         
@@ -186,13 +202,36 @@
         <!-- Workspace expanded content window -->
         <div id="sketch-workspace-box" class="sketch-workspace" style="display: none;">
             <div class="sketch-header">
-                <div id="sketch-title" class="sketch-char-name">Character Name</div>
+                <div class="sketch-char-name-wrapper">
+                    <!-- Social Media Profile Picture Slot Trigger -->
+                    <div class="workspace-pfp-container" onclick="document.getElementById('pfp-uploader').click()">
+                        <img id="workspace-avatar-view" class="workspace-pfp" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>">
+                        <input type="file" id="pfp-uploader" accept="image/*" style="display:none;" onchange="uploadCharacterPfp()">
+                    </div>
+                    <div id="sketch-title" class="sketch-char-name">Character Name</div>
+                </div>
                 
                 <div class="search-wrapper">
                     <div id="color-ball-container" class="color-ball-filters"></div>
                     <div class="sketch-search-banner">
                         <input type="text" id="idea-search" placeholder="Search 🔍" oninput="filterIdeas()">
                     </div>
+                </div>
+            </div>
+
+            <!-- Heart Shape Relationship Status Dashboard Display Panel -->
+            <div id="relationship-panel" class="relationship-status-card" style="display: none;">
+                <div class="heart-icon-big">❤️</div>
+                <div class="rel-stat-inputs">
+                    <div class="rel-percent-row">
+                        <span>Affection Meter:</span>
+                        <input type="number" id="rel-percent-val" min="1" max="100" value="50" oninput="calculateTreatmentDesc(); saveRelationshipData()">
+                        <span>%</span>
+                    </div>
+                    <div>
+                        <input type="text" id="rel-details-notes" class="standard-in" style="width: 100%; padding: 6px 12px; font-size:14px;" placeholder="Add details on how they treat you or story triggers..." oninput="saveRelationshipData()">
+                    </div>
+                    <div id="rel-treatment-output" class="rel-treatment-desc">How she treats you: Neutral and observant.</div>
                 </div>
             </div>
 
@@ -217,7 +256,9 @@
                 </div>
             </div>
 
+            <!-- Updated Floating Action Panel with heart element tray -->
             <div class="floating-actions-tray">
+                <div class="action-btn btn-heart" onclick="toggleRelationshipPanel()" title="Toggle Relationship Affection Status Card ❤️">❤️</div>
                 <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
                     🖼️
                     <input type="file" id="photo-uploader" accept="image/*" onchange="uploadCharacterMedia('image')">
@@ -289,7 +330,6 @@
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
 
-        // Live Sync Time Settings
         onSnapshot(doc(db, "meta", "timeSettings"), (docSnap) => {
             if(docSnap.exists()) {
                 const data = docSnap.data();
@@ -302,7 +342,6 @@
             }
         });
 
-        // Live Sync Goals
         onSnapshot(query(collection(db, "goals"), orderBy("timestamp", "asc")), (snapshot) => {
             localGoals = [];
             snapshot.forEach(doc => {
@@ -312,7 +351,6 @@
             updateTopMarquee();
         });
 
-        // Live Sync Characters
         onSnapshot(query(collection(db, "characters"), orderBy("timestamp", "asc")), (snapshot) => {
             localChars = [];
             snapshot.forEach(doc => {
@@ -324,22 +362,18 @@
         startAiIdleTracking();
     };
 
-    // Updates MTR ticker moving to the right
     function updateTopMarquee() {
         const marqueeBox = document.getElementById('top-marquee-container');
         const activeGoals = localGoals.filter(g => !g.done);
-        
         if(activeGoals.length === 0) {
             let emptyText = "🎉 All caught up! Create a new goal to track progress here!";
             marqueeBox.innerHTML = `<span class="ticker-item">${emptyText}</span> &nbsp;&nbsp; `.repeat(5);
             return;
         }
-        
         let compiledGoals = activeGoals.map(g => `🎯 ${g.text}`).join(' | ');
         marqueeBox.innerHTML = `<span class="ticker-item">${compiledGoals}</span> &nbsp;&nbsp; `.repeat(6);
     }
 
-    // Updates MTR ticker moving to the left
     function updateBottomMarquee() {
         const marqueeBox = document.getElementById('bottom-marquee-container');
         marqueeBox.innerHTML = `<span class="ticker-item">⏰ ${globalDeadlineString}</span> &nbsp;&nbsp; `.repeat(8);
@@ -353,7 +387,6 @@
             updateBottomMarquee();
             return;
         }
-        
         const parts = dateStr.split('-');
         if(parts.length === 3) {
             const year = parts[0];
@@ -361,10 +394,8 @@
             const day = parts[2];
             const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
             const formattedMonth = months[monthIdx] || "MMM";
-            
             let displayString = `Deadline: ${day}/${formattedMonth}/${year}`;
             if(timeStr) displayString += ` at ${timeStr}`;
-            
             globalDeadlineString = displayString;
             lbl.innerText = globalDeadlineString;
             updateBottomMarquee();
@@ -393,11 +424,7 @@
     window.addGoal = async function() {
         let input = document.getElementById('new-goal-input');
         if (input.value.trim() === '') return;
-        await addDoc(collection(db, "goals"), {
-            text: input.value,
-            done: false,
-            timestamp: Date.now()
-        });
+        await addDoc(collection(db, "goals"), { text: input.value, done: false, timestamp: Date.now() });
         input.value = '';
     };
     window.toggleGoal = async function(id, currentStatus) {
@@ -407,7 +434,7 @@
         await deleteDoc(doc(db, "goals", id));
     };
 
-    /* --- CHARACTER SYSTEM --- */
+    /* --- CHARACTER SYSTEM WITH SOCIAL MEDIA PFP --- */
     function renderCharacters() {
         let folderArea = document.getElementById('character-folders');
         let html = '';
@@ -418,14 +445,36 @@
         }
         localChars.forEach((char) => {
             let isActive = char.id === activeCharacterId ? 'active' : '';
-            html += `<div class="char-folder ${isActive}" onclick="openCharacterFolder('${char.id}', '${char.name.replace(/'/g, "\\'")}')">📁 ${char.name}<button class="char-delete" onclick="event.stopPropagation(); deleteCharacter('${char.id}')">X</button></div>`;
+            // Default placeholder if image string not found in DB
+            let avatarImg = char.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
+            
+            html += `
+                <div class="char-folder ${isActive}" onclick="openCharacterFolder('${char.id}', '${char.name.replace(/'/g, "\\'")}')">
+                    <img class="char-pfp-avatar" src="${avatarImg}">
+                    <span>${char.name}</span>
+                    <button class="char-delete" onclick="event.stopPropagation(); deleteCharacter('${char.id}')">X</button>
+                </div>`;
         });
         folderArea.innerHTML = html;
         
         if (activeCharacterId) {
             let current = localChars.find(c => c.id === activeCharacterId);
-            if(current) document.getElementById('sketch-title').innerText = current.name;
-            else document.getElementById('sketch-workspace-box').style.display = 'none';
+            if(current) {
+                document.getElementById('sketch-title').innerText = current.name;
+                document.getElementById('workspace-avatar-view').src = current.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
+                
+                // Read & Show relationship states on active folder load
+                if (current.showRelationship) {
+                    document.getElementById('relationship-panel').style.display = 'flex';
+                } else {
+                    document.getElementById('relationship-panel').style.display = 'none';
+                }
+                document.getElementById('rel-percent-val').value = current.relPercent || 50;
+                document.getElementById('rel-details-notes').value = current.relNotes || '';
+                calculateTreatmentDesc();
+            } else {
+                document.getElementById('sketch-workspace-box').style.display = 'none';
+            }
         }
     }
 
@@ -435,10 +484,59 @@
         if (name === '') return;
         const newDoc = await addDoc(collection(db, "characters"), {
             name: name,
+            pfp: "",
+            showRelationship: false,
+            relPercent: 50,
+            relNotes: "",
             timestamp: Date.now()
         });
         activeCharacterId = newDoc.id;
         input.value = '';
+    };
+
+    window.uploadCharacterPfp = function() {
+        if (!activeCharacterId) return;
+        let file = document.getElementById('pfp-uploader').files[0];
+        if(!file) return;
+
+        let reader = new FileReader();
+        reader.onload = async function(e) {
+            await updateDoc(doc(db, "characters", activeCharacterId), {
+                pfp: e.target.result
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    /* --- RELATIONSHIP SYSTEM CALCULATION --- */
+    window.toggleRelationshipPanel = async function() {
+        if(!activeCharacterId) return;
+        let current = localChars.find(c => c.id === activeCharacterId);
+        if(!current) return;
+        
+        let targetState = !current.showRelationship;
+        await updateDoc(doc(db, "characters", activeCharacterId), {
+            showRelationship: targetState
+        });
+    };
+
+    window.calculateTreatmentDesc = function() {
+        let p = parseInt(document.getElementById('rel-percent-val').value, 10) || 0;
+        let output = document.getElementById('rel-treatment-output');
+        
+        if (p <= 10) output.innerText = "How she treats you: Hostile and completely cold. She avoids talking to you.";
+        else if (p <= 30) output.innerText = "How she treats you: Distant and guarded. Short one-word responses.";
+        else if (p <= 60) output.innerText = "How she treats you: Neutral, polite, and strictly professional.";
+        else if (p <= 85) output.innerText = "How she treats you: Warm, friendly, and frequently shares comfortable smiles.";
+        else output.innerText = "How she treats you: Deeply affectionate and fiercely loyal. Total trust.";
+    };
+
+    window.saveRelationshipData = async function() {
+        if(!activeCharacterId) return;
+        await updateDoc(doc(db, "characters", activeCharacterId), {
+            relPercent: parseInt(document.getElementById('rel-percent-val').value, 10) || 50,
+            relNotes: document.getElementById('rel-details-notes').value
+        });
     };
 
     let unsubscribeIdeas = null;
@@ -446,7 +544,6 @@
         activeCharacterId = id;
         renderCharacters();
         document.getElementById('sketch-workspace-box').style.display = 'block';
-        document.getElementById('sketch-title').innerText = name;
         document.getElementById('idea-search').value = '';
         selectedColorFilter = 'all'; 
         document.getElementById('idea-popup-box').style.display = 'none';
@@ -567,24 +664,20 @@
         recents.unshift(chosenColor);
         if(recents.length > 6) recents.pop();
         localStorage.setItem('recentColors', JSON.stringify(recents));
-        
         toggleIdeaPopup();
     };
 
     function buildColorBallFilters() {
         let container = document.getElementById('color-ball-container');
         let uniqueColors = [];
-        
         localIdeas.forEach(idea => {
             if(idea.type === 'text' || !idea.type) {
                 let color = idea.color || '#e74c3c';
                 if(!uniqueColors.includes(color)) uniqueColors.push(color);
             }
         });
-
         let activeAll = selectedColorFilter === 'all' ? 'active' : '';
         let html = `<div class="filter-ball all-colors-ball ${activeAll}" title="Show All Content" onclick="selectColorBallFilter('all', this)"></div>`;
-        
         uniqueColors.forEach(c => {
             let activeClass = selectedColorFilter === c ? 'active' : '';
             html += `<div class="filter-ball ${activeClass}" style="background: ${c};" title="Filter by color" onclick="selectColorBallFilter('${c}', this)"></div>`;
@@ -595,9 +688,7 @@
     window.selectColorBallFilter = function(color, element) {
         selectedColorFilter = color;
         let balls = document.getElementsByClassName('filter-ball');
-        for(let i=0; i<balls.length; i++) {
-            balls[i].classList.remove('active');
-        }
+        for(let i=0; i<balls.length; i++) balls[i].classList.remove('active');
         element.classList.add('active');
         filterIdeas();
     };
@@ -605,14 +696,11 @@
     window.filterIdeas = function() {
         let textQuery = document.getElementById('idea-search').value.toLowerCase();
         let containers = document.getElementById('idea-boxes').children;
-
         for (let i = 0; i < containers.length; i++) {
             let boxText = containers[i].getAttribute('data-text') || '';
             let boxColor = containers[i].getAttribute('data-color') || '';
-            
             let textMatches = boxText.includes(textQuery);
             let colorMatches = (selectedColorFilter === 'all' || boxColor === selectedColorFilter || boxColor === 'media');
-
             if (textMatches && colorMatches) {
                 containers[i].style.display = 'flex';
                 if(containers[i].classList.contains('red-idea-box')) containers[i].style.display = 'block';
@@ -639,18 +727,15 @@
         const wrapper = document.getElementById('ai-badge-wrapper');
         const badgeBtn = document.getElementById('ai-badge-btn');
         const chatWin = document.getElementById('ai-window');
-
         if (wrapper.classList.contains('minimized')) {
-            // Step out of the edge wall, transform back to ":D"
             wrapper.classList.remove('minimized');
             badgeBtn.innerHTML = ":D";
             startAiIdleTracking();
         } else {
-            // If already open, open up the conversation UI panel
             if (chatWin.style.display === 'none' || chatWin.style.display === '') {
                 chatWin.style.display = 'flex';
                 document.getElementById('ai-input').focus();
-                stopAiIdleTracking(); // Prevent closing while typing
+                stopAiIdleTracking();
             }
         }
     };
@@ -662,12 +747,10 @@
 
     function startAiIdleTracking() {
         stopAiIdleTracking();
-        // Automatically hide back into the edge after 4 seconds of inactivity
         aiIdleTimer = setTimeout(() => {
             const wrapper = document.getElementById('ai-badge-wrapper');
             const badgeBtn = document.getElementById('ai-badge-btn');
             const chatWin = document.getElementById('ai-window');
-
             if (chatWin.style.display !== 'flex') {
                 wrapper.classList.add('minimized');
                 badgeBtn.innerHTML = "|&lt;";
@@ -699,17 +782,10 @@
             let cheers = [
                 "You are making such incredible progress! Game development takes time, but look at you go! 🌟 Keep it up, you superstar!",
                 "Wow, this thought process is completely unique. Your player base is going to love your creativity! I'm cheering so hard for you! 📣💖",
-                "Don't ever doubt your skills! Rome wasn't built in a day, and amazing video games take heart. You are doing beautiful work! 🏆",
-                "Take a deep breath, stretch your hands, and smile—because your game project is turning into something special! 🎮🌈"
+                "Don't ever doubt your skills! Rome wasn't built in a day, and amazing video games take heart. You are doing beautiful work! 🏆"
             ];
             let randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
             let reply = `Ooooh, I love this! 😍 ${randomCheer} Everything looks correct and matches your game vibes flawlessly!`;
-            
-            if(text.toLowerCase().includes('if') || text.toLowerCase().includes('function') || text.toLowerCase().includes('=')) {
-                reply = `Look at those coding skills! 💻🔥 I checked over your script logic and it looks fantastic. Coding can be tough, but you are figuring it out perfectly. Keep going, wizard!`;
-            } else if (text.length > 25) {
-                reply = `Wow, this dialogue/story snippet is breathtaking! 🎭 It has so much emotion and pacing. No typos found either! You have an amazing storytelling gift. Keep creating! ✨`;
-            }
             msgBox.innerHTML += `<div class="msg helper">${reply}</div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         }, 1300);
