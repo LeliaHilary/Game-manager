@@ -5,124 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Game Dev Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: #ecf0f1; padding: 20px; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; padding-bottom: 100px; }
-        h1 { text-align: center; color: #3498db; margin-bottom: 30px; }
-        .card { background: #34495e; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; }
-        h2 { margin-top: 0; color: #e74c3c; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: #ecf0f1; padding: 60px 20px; margin: 0; position: relative; min-height: 100vh; box-sizing: border-box; }
+        .container { max-width: 1000px; margin: 0 auto; padding-bottom: 80px; }
         
-        /* Time Selector Layout */
-        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px dashed #7f8c8d; flex-wrap: wrap; }
-        .title-label { font-size: 1.5em; font-weight: bold; color: #e74c3c; margin: 0; }
-        select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.5em; font-weight: bold; border-radius: 4px; padding: 2px 5px; cursor: pointer; outline: none; }
+        /* --- ORANGE TICKER BANNERS --- */
+        .ticker-wrap { position: fixed; left: 0; width: 100%; background: #e67e22; color: #ffffff; overflow: hidden; height: 35px; display: flex; align-items: center; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.4); font-weight: bold; font-size: 15px; letter-spacing: 0.5px; }
+        .ticker-top { top: 0; border-bottom: 2px solid #d35400; }
+        .ticker-bottom { bottom: 0; border-top: 2px solid #d35400; }
+        
+        .ticker-content { display: inline-flex; white-space: nowrap; padding-left: 100%; gap: 50px; }
+        
+        /* Animation loops moving left and right */
+        @keyframes marquee-left {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+        @keyframes marquee-right {
+            0% { transform: translate3d(-100%, 0, 0); }
+            100% { transform: translate3d(0, 0, 0); }
+        }
+        
+        .move-left .ticker-content { animation: marquee-left 25s linear infinite; }
+        .move-right .ticker-content { animation: marquee-right 25s linear infinite; }
+        .ticker-item { display: inline-block; padding-right: 20px; }
 
-        /* Deadline Display and Picker */
-        .deadline-container { display: flex; align-items: center; gap: 8px; margin-left: auto; background: #1a252f; padding: 6px 12px; border-radius: 20px; border: 1px solid #7f8c8d; font-size: 14px; font-weight: bold; }
+        /* --- PURPLE CONTAINER TITLE BANNER --- */
+        .title-purple-box { background: #34495e; border: 4px solid #8e44ad; border-radius: 12px; padding: 20px 10px; margin-bottom: 25px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+        .title-purple-box h1 { font-size: 2.3em; margin: 0; color: #3498db; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 15px; }
+
+        /* --- BLUE CONTAINER (GOALS SECTION) --- */
+        .card-blue-outline { background: #34495e; padding: 30px; margin-bottom: 25px; border-radius: 12px; border: 4px solid #3498db; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+        
+        /* --- RED CONTAINER (CHARACTER WORKSPACE CONTAINER) --- */
+        .card-red-outline { background: #34495e; padding: 30px; margin-bottom: 25px; border-radius: 12px; border: 4px solid #e74c3c; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+
+        /* Layout elements inside panels */
+        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #7f8c8d; flex-wrap: wrap; }
+        .title-label { font-size: 1.6em; font-weight: bold; color: #e74c3c; margin: 0; }
+        select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.4em; font-weight: bold; border-radius: 4px; padding: 4px 8px; cursor: pointer; outline: none; }
+
+        .deadline-container { display: flex; align-items: center; gap: 8px; margin-left: auto; background: #1a252f; padding: 8px 15px; border-radius: 20px; border: 1px solid #7f8c8d; font-size: 14px; font-weight: bold; }
         .deadline-display { color: #f1c40f; }
-        .deadline-pickers { display: flex; align-items: center; gap: 5px; position: relative; }
-        .deadline-pickers input[type="date"], .deadline-pickers input[type="time"] { background: #3498db; color: white; border: none; padding: 3px 6px; border-radius: 4px; font-family: inherit; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .deadline-pickers { display: flex; align-items: center; gap: 5px; }
+        .deadline-pickers input[type="date"], .deadline-pickers input[type="time"] { background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-family: inherit; font-size: 12px; cursor: pointer; font-weight: bold; }
 
-        /* Inputs and Textareas */
-        textarea { width: 100%; height: 100px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; resize: vertical; }
-        input[type="text"].standard-in { background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; width: 70%; box-sizing: border-box; }
+        textarea { width: 100%; height: 120px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 12px; box-sizing: border-box; font-size: 15px; resize: vertical; }
+        input[type="text"].standard-in { background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px 14px; width: 70%; box-sizing: border-box; font-size: 15px; }
         
-        /* Buttons */
-        button { background: #2ecc71; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button { background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
         button:hover { background: #27ae60; }
-        .btn-delete { background: #c0392b; padding: 4px 8px; font-size: 12px; margin-left: 10px; color: white; border-radius: 4px; }
+        .btn-delete { background: #c0392b; padding: 6px 12px; font-size: 13px; margin-left: 10px; color: white; border-radius: 4px; }
         .btn-delete:hover { background: #962d22; }
 
-        /* Goal list items - Custom Larger Sizes for Better Readability */
-        .todo-list { list-style: none; padding: 0; }
-        .todo-item { display: flex; align-items: center; justify-content: space-between; background: #2c3e50; padding: 14px 18px; margin-bottom: 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .todo-left { display: flex; align-items: center; gap: 14px; width: 80%; }
-        .todo-left span { font-size: 1.25em; font-weight: 600; line-height: 1.3; word-break: break-word; }
-        .todo-item input[type="checkbox"] { transform: scale(1.5); cursor: pointer; margin-right: 4px; }
-        .completed { text-decoration: line-through; color: #7f8c8d; opacity: 0.7; }
+        /* Rendered Goals Styles */
+        .todo-list { list-style: none; padding: 0; margin-top: 20px; }
+        .todo-item { display: flex; align-items: center; justify-content: space-between; background: #2c3e50; padding: 16px 20px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+        .todo-left { display: flex; align-items: center; gap: 16px; width: 80%; }
+        .todo-left span { font-size: 1.35em; font-weight: 600; line-height: 1.3; word-break: break-word; }
+        .todo-item input[type="checkbox"] { transform: scale(1.6); cursor: pointer; margin-right: 6px; }
+        .completed { text-decoration: line-through; color: #7f8c8d; opacity: 0.6; }
 
         /* Character Folder Styles */
-        .folder-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
-        .char-folder { background: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .folder-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .char-folder { background: #3498db; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 10px; font-size: 15px; }
         .char-folder:hover { background: #2980b9; }
         .char-folder.active { background: #e67e22; }
-        .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
+        .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; }
         .char-delete:hover { background: #c0392b; }
 
-        /* --- WORKSPACE --- */
-        .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 8px; padding: 20px; margin-top: 15px; border: 2px solid #34495e; min-height: 400px; position: relative; }
-        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #34495e; padding-bottom: 10px; gap: 15px; flex-wrap: wrap; }
-        .sketch-char-name { font-size: 1.5em; font-weight: bold; border: 2px solid #3498db; padding: 5px 15px; background: #34495e; border-radius: 6px; color: #3498db; }
+        /* --- EXTENDED EXPANDABLE WORKSPACE --- */
+        .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 12px; padding: 25px; margin-top: 20px; border: 3px solid #34495e; min-height: 450px; position: relative; }
+        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #34495e; padding-bottom: 15px; gap: 15px; flex-wrap: wrap; }
+        .sketch-char-name { font-size: 1.6em; font-weight: bold; border: 2px solid #3498db; padding: 6px 20px; background: #34495e; border-radius: 8px; color: #3498db; }
         
-        /* Layout for Round Filter Balls */
         .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .color-ball-filters { display: flex; gap: 6px; align-items: center; }
         
-        .filter-ball { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #7f8c8d; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .filter-ball { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #7f8c8d; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .filter-ball:hover { transform: scale(1.15); }
         .filter-ball.active { border-color: white; box-shadow: 0 0 8px white; transform: scale(1.1); }
         .all-colors-ball { background: linear-gradient(45deg, #e74c3c, #3498db, #2ecc71, #f1c40f); }
 
-        .sketch-search-banner { background: #2980b9; border: 2px solid #2c3e50; border-radius: 6px; padding: 5px 10px; display: flex; align-items: center; gap: 5px; }
-        .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; font-weight: bold; outline: none; width: 120px; }
-        .sketch-search-banner input::placeholder { color: #e0e0e0; }
+        .sketch-search-banner { background: #2980b9; border: 2px solid #2c3e50; border-radius: 6px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; }
+        .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; font-weight: bold; outline: none; width: 130px; }
 
-        /* Custom Colored Idea Boxes & Media Containers */
-        .idea-boxes-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 80px; }
-        .red-idea-box { color: white; border: 2px solid #2c3e50; border-radius: 12px; padding: 15px; font-weight: bold; box-shadow: 3px 3px 0px #1a252f; position: relative; word-wrap: break-word; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
+        .idea-boxes-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 90px; }
+        .red-idea-box { color: white; border: 2px solid #2c3e50; border-radius: 12px; padding: 18px; font-weight: bold; box-shadow: 3px 3px 0px #1a252f; position: relative; word-wrap: break-word; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); font-size: 15px; }
         
-        /* Media Attachment Boxes */
-        .media-box { background: #34495e; border: 2px dashed #3498db; border-radius: 12px; padding: 12px; position: relative; box-shadow: 3px 3px 0px #1a252f; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .media-box img { max-width: 100%; max-height: 250px; border-radius: 6px; border: 2px solid #2c3e50; }
-        .doc-badge { display: flex; align-items: center; gap: 10px; background: #2c3e50; padding: 10px 20px; border-radius: 6px; font-weight: bold; width: 90%; box-sizing: border-box; border-left: 5px solid #e67e22; }
+        .media-box { background: #34495e; border: 2px dashed #3498db; border-radius: 12px; padding: 15px; position: relative; box-shadow: 3px 3px 0px #1a252f; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .media-box img { max-width: 100%; max-height: 300px; border-radius: 6px; border: 2px solid #2c3e50; }
+        .doc-badge { display: flex; align-items: center; gap: 12px; background: #2c3e50; padding: 12px 22px; border-radius: 6px; font-weight: bold; width: 95%; box-sizing: border-box; border-left: 5px solid #e67e22; }
         
-        .idea-box-delete { position: absolute; top: 8px; right: 8px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+        .idea-box-delete { position: absolute; top: 10px; right: 10px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; align-items: center; justify-content: center; }
         .idea-box-delete:hover { background: #c0392b; }
 
-        /* Color Picker Section Inside Popup */
-        .color-picker-section { margin: 10px 0; background: #2c3e50; padding: 10px; border-radius: 6px; border: 1px solid #7f8c8d; }
-        .color-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .color-wheel { border: none; background: transparent; width: 40px; height: 40px; cursor: pointer; }
-        .recent-colors-title { font-size: 12px; color: #bdc3c7; margin: 5px 0; font-weight: normal; }
-        .recent-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-        .swatch { width: 25px; height: 25px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-
-        /* --- UTILITY FLOATING ACTIONS TRAY --- */
-        .floating-actions-tray { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; align-items: center; z-index: 10; }
-        .action-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; }
+        .floating-actions-tray { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 12px; align-items: center; z-index: 10; }
+        .action-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; }
         .action-btn:hover { transform: scale(1.08); }
         .action-btn input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        
-        .btn-plus { background: #2ecc71; font-size: 26px; font-weight: bold; }
+        .btn-plus { background: #2ecc71; font-size: 28px; font-weight: bold; }
         .btn-photo { background: #3498db; }
         .btn-word { background: #e67e22; }
-
-        /* Idea Input Popup Box */
         .idea-popup { background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
 
-        /* --- FLOATING AI HELPER SYSTEM --- */
-        .ai-chat-badge { position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px; background: #9b59b6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 1000; transition: transform 0.2s; border: 2px solid #2c3e50; user-select: none; font-family: sans-serif; }
-        .ai-chat-badge:hover { transform: scale(1.1); background: #8e44ad; }
+        /* --- AUTO-SLIDING EDGE CHAT BADGE SYSTEM --- */
+        .ai-badge-container { position: fixed; bottom: 20px; left: 0; z-index: 3000; display: flex; align-items: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
-        .ai-chat-window { position: fixed; bottom: 90px; left: 20px; width: 340px; height: 420px; background: #34495e; border: 2px solid #9b59b6; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 1000; overflow: hidden; }
-        .ai-chat-header { background: #9b59b6; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        /* State when sitting minimized on edge */
+        .ai-badge-container.minimized { transform: translateX(-40px); }
+        
+        /* The structural button layout toggling graphic looks */
+        .ai-chat-badge { width: 60px; height: 60px; background: #9b59b6; border-radius: 0 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0,0,0,0.4); border: 2px solid #2c3e50; border-left: none; user-select: none; color: white; font-weight: bold; transition: background 0.2s, border-radius 0.3s; }
+        .ai-badge-container:not(.minimized) .ai-chat-badge { border-radius: 50%; border-left: 2px solid #2c3e50; width: 60px; margin-left: 10px; }
+        
+        .ai-chat-window { position: fixed; bottom: 90px; left: 20px; width: 350px; height: 440px; background: #34495e; border: 2px solid #9b59b6; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 3000; overflow: hidden; }
+        .ai-chat-header { background: #9b59b6; color: white; padding: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .ai-chat-close { background: transparent; border: none; color: white; font-size: 16px; cursor: pointer; font-weight: bold; }
-        
-        .ai-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #2c3e50; }
-        .msg { max-width: 85%; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+        .ai-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #2c3e50; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
         .msg.helper { background: #34495e; color: #ecf0f1; align-self: flex-start; border-left: 4px solid #9b59b6; }
         .msg.user { background: #9b59b6; color: white; align-self: flex-end; }
-        
-        .ai-chat-footer { padding: 10px; display: flex; gap: 6px; background: #34495e; border-top: 1px solid #7f8c8d; }
-        .ai-chat-footer input { flex: 1; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; outline: none; }
+        .ai-chat-footer { padding: 12px; display: flex; gap: 6px; background: #34495e; border-top: 1px solid #7f8c8d; }
+        .ai-chat-footer input { flex: 1; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; outline: none; }
     </style>
 </head>
 <body>
 
+<!-- TOP TICKER BANNER (GOAL FOR THE WEEK LOOPING RIGHT) -->
+<div class="ticker-wrap ticker-top move-right">
+    <div id="top-marquee-container" class="ticker-content">
+        <span class="ticker-item">🎯 Loading current active project goals...</span>
+    </div>
+</div>
+
 <div class="container">
-    <h1>🏫GAME CHARACTER SETTINGS🏫</h1>
+    <!-- Purple Outline Header Box -->
+    <div class="title-purple-box">
+        <h1>🏫GAME CHARACTER SETTINGS🏫</h1>
+    </div>
     
-    <!-- Goals Card -->
-    <div class="card">
+    <!-- Blue Outline Goals Panel Box -->
+    <div class="card-blue-outline">
         <div class="title-row">
             <span class="title-label">🎯 Goals for This</span>
             <select id="time-type" class="time-select" onchange="saveTimeSettings()">
@@ -131,7 +154,6 @@
                 <option value="Day">Day</option>
             </select>
 
-            <!-- Deadline Interactive Tray -->
             <div class="deadline-container">
                 <span id="deadline-lbl" class="deadline-display">Deadline: Not Set</span>
                 <div class="deadline-pickers">
@@ -148,48 +170,43 @@
         <ul id="todo-list" class="todo-list"></ul>
     </div>
 
-    <!-- Character Manager Card -->
-    <div class="card">
+    <!-- Red Outline Character Panel Box -->
+    <div class="card-red-outline">
         <h2>👥 Character Folder Manager</h2>
         
-        <div style="margin-bottom: 15px;">
+        <div style="margin-bottom: 20px;">
             <input type="text" id="new-char-input" class="standard-in" placeholder="Type character name here...">
             <button onclick="addCharacter()" style="background: #3498db;">Add Character</button>
         </div>
 
         <div id="character-folders" class="folder-container"></div>
 
-        <!-- Workspace Section -->
+        <!-- Workspace expanded content window -->
         <div id="sketch-workspace-box" class="sketch-workspace" style="display: none;">
             <div class="sketch-header">
                 <div id="sketch-title" class="sketch-char-name">Character Name</div>
                 
-                <!-- Search wrapper with color filters -->
                 <div class="search-wrapper">
                     <div id="color-ball-container" class="color-ball-filters"></div>
-
                     <div class="sketch-search-banner">
                         <input type="text" id="idea-search" placeholder="Search 🔍" oninput="filterIdeas()">
                     </div>
                 </div>
             </div>
 
-            <!-- Custom Content Boxes Container (Ideas, Photos, Docs) -->
             <div id="idea-boxes" class="idea-boxes-container"></div>
 
-            <!-- New Idea Form Popup Box -->
             <div id="idea-popup-box" class="idea-popup">
                 <h4 style="margin: 0 0 10px 0;">💡 Write down an idea:</h4>
                 <textarea id="new-idea-text" placeholder="Type setting, skill, story beat or trait..."></textarea>
                 
-                <!-- Color Wheel & Recent Colors -->
-                <div class="color-picker-section">
-                    <div class="color-row">
+                <div style="margin: 10px 0; background: #2c3e50; padding: 10px; border-radius: 6px; border: 1px solid #7f8c8d;">
+                    <div class="color-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                         <label style="font-weight: bold; font-size: 14px;">Pick Box Color:</label>
-                        <input type="color" id="idea-color" class="color-wheel" value="#e74c3c">
+                        <input type="color" id="idea-color" style="border:none; background:transparent; width:40px; height:40px; cursor:pointer;" value="#e74c3c">
                     </div>
-                    <div class="recent-colors-title">Recent Used Colors:</div>
-                    <div id="recent-swatches-container" class="recent-swatches"></div>
+                    <div style="font-size: 12px; color: #bdc3c7; margin: 5px 0;">Recent Used Colors:</div>
+                    <div id="recent-swatches-container" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
                 </div>
 
                 <div style="margin-top: 10px; display: flex; gap: 10px;">
@@ -198,39 +215,44 @@
                 </div>
             </div>
 
-            <!-- Floating Action Actions Tray -->
             <div class="floating-actions-tray">
-                <!-- Upload Photo Button -->
                 <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
                     🖼️
                     <input type="file" id="photo-uploader" accept="image/*" onchange="uploadCharacterMedia('image')">
                 </div>
-                <!-- Upload Word File Button -->
                 <div class="action-btn btn-word" title="Attach Doc / Word File 📄">
                     📄
                     <input type="file" id="doc-uploader" accept=".doc,.docx,.txt" onchange="uploadCharacterMedia('doc')">
                 </div>
-                <!-- Text Idea Plus Button -->
                 <div class="action-btn btn-plus" onclick="toggleIdeaPopup()" title="Add Text Idea Box 💡">+</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- --- ":D" AI HELPER WIDGET --- -->
-<div class="ai-chat-badge" id="ai-badge" onclick="toggleAiChat()"><strong>:D</strong></div>
+<!-- BOTTOM TICKER BANNER (DEADLINE TEXT LOOPING LEFT) -->
+<div class="ticker-wrap ticker-bottom move-left">
+    <div id="bottom-marquee-container" class="ticker-content">
+        <span class="ticker-item">⏰ Deadline: Not Set</span>
+    </div>
+</div>
+
+<!-- AUTO-SLIDING INTELLIGENT HELPER BADGE -->
+<div class="ai-badge-container minimized" id="ai-badge-wrapper">
+    <div class="ai-chat-badge" id="ai-badge-btn" onclick="handleBadgeClick()">|&lt;</div>
+</div>
 
 <div class="ai-chat-window" id="ai-window">
     <div class="ai-chat-header">
         <span>💖 Your Hype-Helper!</span>
-        <button class="ai-chat-close" onclick="toggleAiChat()">X</button>
+        <button class="ai-chat-close" onclick="closeAiChatWindow()">X</button>
     </div>
     <div class="ai-messages" id="ai-messages-box">
         <div class="msg helper">Hi friend!! I am SO excited to help you build your game today! 🎉 Let's build something magical! 🚀🌟</div>
     </div>
     <div class="ai-chat-footer">
         <input type="text" id="ai-input" placeholder="Type here for a boost of positivity..." onkeydown="if(event.key==='Enter') sendAiMessage()">
-        <button onclick="sendAiMessage()" style="background: #9b59b6; padding: 8px 12px;">Send</button>
+        <button onclick="sendAiMessage()" style="background: #9b59b6; padding: 8px 12px; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">Send</button>
     </div>
 </div>
 
@@ -250,7 +272,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Dynamic state arrays
     let localGoals = [];
     let localChars = [];
     let localIdeas = [];
@@ -258,37 +279,38 @@
     let activeCharacterId = null;
     let selectedColorFilter = 'all'; 
     let defaultColors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
+    let aiIdleTimer = null;
+    let globalDeadlineString = "Deadline: Not Set";
 
     window.onload = function() {
         if(!localStorage.getItem('recentColors')) {
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
 
-        // 1. Listen to Time & Deadline Configurations
+        // Live Sync Time Settings
         onSnapshot(doc(db, "meta", "timeSettings"), (docSnap) => {
             if(docSnap.exists()) {
                 const data = docSnap.data();
                 document.getElementById('time-type').value = data.timeType || "Week";
-                
                 const dbDate = data.deadlineDate || "";
                 const dbTime = data.deadlineTime || "";
                 document.getElementById('deadline-date').value = dbDate;
                 document.getElementById('deadline-time').value = dbTime;
-                
                 updateDeadlineDisplay(dbDate, dbTime);
             }
         });
 
-        // 2. Multi-user Live Sync for Goals
+        // Live Sync Goals
         onSnapshot(query(collection(db, "goals"), orderBy("timestamp", "asc")), (snapshot) => {
             localGoals = [];
             snapshot.forEach(doc => {
                 localGoals.push({ id: doc.id, ...doc.data() });
             });
             renderGoals();
+            updateTopMarquee();
         });
 
-        // 3. Multi-user Live Sync for Characters
+        // Live Sync Characters
         onSnapshot(query(collection(db, "characters"), orderBy("timestamp", "asc")), (snapshot) => {
             localChars = [];
             snapshot.forEach(doc => {
@@ -296,16 +318,40 @@
             });
             renderCharacters();
         });
+
+        startAiIdleTracking();
     };
+
+    // Updates MTR ticker moving to the right
+    function updateTopMarquee() {
+        const marqueeBox = document.getElementById('top-marquee-container');
+        const activeGoals = localGoals.filter(g => !g.done);
+        
+        if(activeGoals.length === 0) {
+            let emptyText = "🎉 All caught up! Create a new goal to track progress here!";
+            marqueeBox.innerHTML = `<span class="ticker-item">${emptyText}</span> &nbsp;&nbsp; `.repeat(5);
+            return;
+        }
+        
+        let compiledGoals = activeGoals.map(g => `🎯 ${g.text}`).join(' | ');
+        marqueeBox.innerHTML = `<span class="ticker-item">${compiledGoals}</span> &nbsp;&nbsp; `.repeat(6);
+    }
+
+    // Updates MTR ticker moving to the left
+    function updateBottomMarquee() {
+        const marqueeBox = document.getElementById('bottom-marquee-container');
+        marqueeBox.innerHTML = `<span class="ticker-item">⏰ ${globalDeadlineString}</span> &nbsp;&nbsp; `.repeat(8);
+    }
 
     function updateDeadlineDisplay(dateStr, timeStr) {
         const lbl = document.getElementById('deadline-lbl');
         if (!dateStr) {
-            lbl.innerText = "Deadline: Not Set";
+            globalDeadlineString = "Deadline: Not Set";
+            lbl.innerText = globalDeadlineString;
+            updateBottomMarquee();
             return;
         }
         
-        // Parse raw string YYYY-MM-DD into DD/MMM/YYYY format
         const parts = dateStr.split('-');
         if(parts.length === 3) {
             const year = parts[0];
@@ -315,17 +361,17 @@
             const formattedMonth = months[monthIdx] || "MMM";
             
             let displayString = `Deadline: ${day}/${formattedMonth}/${year}`;
-            if(timeStr) {
-                displayString += ` at ${timeStr}`;
-            }
-            lbl.innerText = displayString;
+            if(timeStr) displayString += ` at ${timeStr}`;
+            
+            globalDeadlineString = displayString;
+            lbl.innerText = globalDeadlineString;
+            updateBottomMarquee();
         }
     }
 
     window.saveTimeSettings = function() {
         const dDate = document.getElementById('deadline-date').value;
         const dTime = document.getElementById('deadline-time').value;
-        
         setDoc(doc(db, "meta", "timeSettings"), {
             timeType: document.getElementById('time-type').value,
             deadlineDate: dDate,
@@ -334,7 +380,7 @@
         updateDeadlineDisplay(dDate, dTime);
     };
 
-    /* --- GOALS MULTI-USER --- */
+    /* --- GOALS CONTROL PANEL --- */
     function renderGoals() {
         let listHtml = '';
         localGoals.forEach((goal) => {
@@ -359,7 +405,7 @@
         await deleteDoc(doc(db, "goals", id));
     };
 
-    /* --- CHARACTER FOLDERS MULTI-USER --- */
+    /* --- CHARACTER SYSTEM --- */
     function renderCharacters() {
         let folderArea = document.getElementById('character-folders');
         let html = '';
@@ -374,7 +420,6 @@
         });
         folderArea.innerHTML = html;
         
-        // Keep name updated if current open folder is edited
         if (activeCharacterId) {
             let current = localChars.find(c => c.id === activeCharacterId);
             if(current) document.getElementById('sketch-title').innerText = current.name;
@@ -406,7 +451,6 @@
 
         if(unsubscribeIdeas) unsubscribeIdeas();
 
-        // Target active character's unique nested idea subcollection
         unsubscribeIdeas = onSnapshot(query(collection(db, "characters", id, "ideas"), orderBy("timestamp", "asc")), (snapshot) => {
             localIdeas = [];
             snapshot.forEach(doc => {
@@ -495,7 +539,7 @@
         let container = document.getElementById('recent-swatches-container');
         let html = '';
         recents.forEach(color => {
-            html += `<div class="swatch" style="background: ${color};" onclick="setPickerColor('${color}')"></div>`;
+            html += `<div class="swatch" style="width:25px; height:25px; border-radius:50%; border:2px solid white; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.3); background: ${color};" onclick="setPickerColor('${color}')"></div>`;
         });
         container.innerHTML = html;
     }
@@ -588,16 +632,50 @@
         }
     };
 
-    /* --- FLOATING AI HELPER --- */
-    window.toggleAiChat = function() {
-        let win = document.getElementById('ai-window');
-        if(win.style.display === 'none' || win.style.display === '') {
-            win.style.display = 'flex';
-            document.getElementById('ai-input').focus();
+    /* --- AUTO-SLIDING CHAT BUTTON LOGIC --- */
+    window.handleBadgeClick = function() {
+        const wrapper = document.getElementById('ai-badge-wrapper');
+        const badgeBtn = document.getElementById('ai-badge-btn');
+        const chatWin = document.getElementById('ai-window');
+
+        if (wrapper.classList.contains('minimized')) {
+            // Step out of the edge wall, transform back to ":D"
+            wrapper.classList.remove('minimized');
+            badgeBtn.innerHTML = ":D";
+            startAiIdleTracking();
         } else {
-            win.style.display = 'none';
+            // If already open, open up the conversation UI panel
+            if (chatWin.style.display === 'none' || chatWin.style.display === '') {
+                chatWin.style.display = 'flex';
+                document.getElementById('ai-input').focus();
+                stopAiIdleTracking(); // Prevent closing while typing
+            }
         }
     };
+
+    window.closeAiChatWindow = function() {
+        document.getElementById('ai-window').style.display = 'none';
+        startAiIdleTracking();
+    };
+
+    function startAiIdleTracking() {
+        stopAiIdleTracking();
+        // Automatically hide back into the edge after 4 seconds of inactivity
+        aiIdleTimer = setTimeout(() => {
+            const wrapper = document.getElementById('ai-badge-wrapper');
+            const badgeBtn = document.getElementById('ai-badge-btn');
+            const chatWin = document.getElementById('ai-window');
+
+            if (chatWin.style.display !== 'flex') {
+                wrapper.classList.add('minimized');
+                badgeBtn.innerHTML = "|&lt;";
+            }
+        }, 4000);
+    }
+
+    function stopAiIdleTracking() {
+        if (aiIdleTimer) clearTimeout(aiIdleTimer);
+    }
 
     window.sendAiMessage = function() {
         let inputEl = document.getElementById('ai-input');
