@@ -12,10 +12,16 @@
         h2 { margin-top: 0; color: #e74c3c; }
         
         /* Time Selector Layout */
-        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px dashed #7f8c8d; }
+        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px dashed #7f8c8d; flex-wrap: wrap; }
         .title-label { font-size: 1.5em; font-weight: bold; color: #e74c3c; margin: 0; }
         select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.5em; font-weight: bold; border-radius: 4px; padding: 2px 5px; cursor: pointer; outline: none; }
-        input.time-input { background: transparent; color: #e74c3c; border: none; font-size: 1.5em; font-weight: bold; width: 120px; outline: none; }
+        input.time-input { background: transparent; color: #e74c3c; border: none; font-size: 1.5em; font-weight: bold; width: 60px; outline: none; text-align: center; }
+
+        /* Deadline Display and Picker */
+        .deadline-container { display: flex; align-items: center; gap: 8px; margin-left: auto; background: #1a252f; padding: 6px 12px; border-radius: 20px; border: 1px solid #7f8c8d; font-size: 14px; font-weight: bold; }
+        .deadline-display { color: #f1c40f; }
+        .deadline-pickers { display: flex; align-items: center; gap: 5px; position: relative; }
+        .deadline-pickers input[type="date"], .deadline-pickers input[type="time"] { background: #3498db; color: white; border: none; padding: 3px 6px; border-radius: 4px; font-family: inherit; font-size: 12px; cursor: pointer; font-weight: bold; }
 
         /* Inputs and Textareas */
         textarea { width: 100%; height: 100px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; resize: vertical; }
@@ -113,7 +119,7 @@
 <body>
 
 <div class="container">
-    <h1>🏫GAME CHARACTER SETTINGS🏫</h1></h1>
+    <h1>🏫GAME CHARACTER SETTINGS🏫</h1>
     
     <!-- Goals Card -->
     <div class="card">
@@ -125,6 +131,15 @@
                 <option value="Day">Day</option>
             </select>
             <input type="text" id="time-value" class="time-input" value="1" oninput="saveTimeSettings()">
+
+            <!-- Deadline Interactive Tray -->
+            <div class="deadline-container">
+                <span id="deadline-lbl" class="deadline-display">Deadline: Not Set</span>
+                <div class="deadline-pickers">
+                    <input type="date" id="deadline-date" onchange="saveTimeSettings()">
+                    <input type="time" id="deadline-time" onchange="saveTimeSettings()">
+                </div>
+            </div>
         </div>
         
         <div style="margin-bottom: 15px;">
@@ -250,12 +265,19 @@
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
 
-        // 1. Listen to Time Configurations
+        // 1. Listen to Time & Deadline Configurations
         onSnapshot(doc(db, "meta", "timeSettings"), (docSnap) => {
             if(docSnap.exists()) {
                 const data = docSnap.data();
                 document.getElementById('time-type').value = data.timeType || "Week";
                 document.getElementById('time-value').value = data.timeValue || "1";
+                
+                const dbDate = data.deadlineDate || "";
+                const dbTime = data.deadlineTime || "";
+                document.getElementById('deadline-date').value = dbDate;
+                document.getElementById('deadline-time').value = dbTime;
+                
+                updateDeadlineDisplay(dbDate, dbTime);
             }
         });
 
@@ -278,11 +300,41 @@
         });
     };
 
+    function updateDeadlineDisplay(dateStr, timeStr) {
+        const lbl = document.getElementById('deadline-lbl');
+        if (!dateStr) {
+            lbl.innerText = "Deadline: Not Set";
+            return;
+        }
+        
+        // Parse raw string YYYY-MM-DD into DD/MMM/YYYY format
+        const parts = dateStr.split('-');
+        if(parts.length === 3) {
+            const year = parts[0];
+            const monthIdx = parseInt(parts[1], 10) - 1;
+            const day = parts[2];
+            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            const formattedMonth = months[monthIdx] || "MMM";
+            
+            let displayString = `Deadline: ${day}/${formattedMonth}/${year}`;
+            if(timeStr) {
+                displayString += ` at ${timeStr}`;
+            }
+            lbl.innerText = displayString;
+        }
+    }
+
     window.saveTimeSettings = function() {
+        const dDate = document.getElementById('deadline-date').value;
+        const dTime = document.getElementById('deadline-time').value;
+        
         setDoc(doc(db, "meta", "timeSettings"), {
             timeType: document.getElementById('time-type').value,
-            timeValue: document.getElementById('time-value').value
+            timeValue: document.getElementById('time-value').value,
+            deadlineDate: dDate,
+            deadlineTime: dTime
         });
+        updateDeadlineDisplay(dDate, dTime);
     };
 
     /* --- GOALS MULTI-USER --- */
