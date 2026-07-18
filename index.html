@@ -18,7 +18,7 @@
         .ticker-content { display: inline-flex; white-space: nowrap; padding-left: 100%; gap: 50px; }
         
         @keyframes marquee-left { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
-        @keyframes marquee-right { 0% { transform: translate3d(-100%, 0, 0); } 100% { transform: translate3d(0, 0, 0); } }
+        @keyframes marquee-right { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
         
         .move-left .ticker-content { animation: marquee-left 25s linear infinite; }
         .move-right .ticker-content { animation: marquee-right 25s linear infinite; }
@@ -78,9 +78,9 @@
         .sketch-char-name-wrapper { display: flex; align-items: center; gap: 15px; }
         .sketch-char-name { font-size: 1.6em; font-weight: bold; border: 2px solid #3498db; padding: 6px 20px; background: #34495e; border-radius: 8px; color: #3498db; }
         
-        /* --- AS SEEN IN YOUR DRAWING: LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- */
+        /* --- LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- */
         .love-degrees-panel { background: #34495e; border: 3px solid #e74c3c; border-radius: 12px; padding: 20px; margin-bottom: 25px; display: none; position: relative; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
-        .love-degrees-panel::after { content: ''; position: absolute; bottom: -15px; right: 185px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #e74c3c; }
+        .love-degrees-panel::after { content: ''; position: absolute; bottom: -15px; right: 125px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #e74c3c; }
         
         .love-degree-item { background: #2c3e50; padding: 15px; border-radius: 8px; border-left: 5px solid #e74c3c; margin-bottom: 15px; position: relative; }
         .love-degree-header { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
@@ -128,23 +128,7 @@
         .btn-plus { background: #2ecc71; font-size: 28px; font-weight: bold; }
         .btn-photo { background: #3498db; }
         .btn-word { background: #e67e22; }
-        .btn-map { background: #9b59b6; font-size: 20px; }
         .idea-popup { background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
-
-        /* --- RELATIONSHIP MAP MODAL OVERLAY --- */
-        .map-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(26, 37, 47, 0.95); z-index: 4000; display: none; flex-direction: column; box-sizing: border-box; }
-        .map-toolbar { background: #34495e; padding: 15px 25px; display: flex; gap: 15px; align-items: center; border-bottom: 3px solid #9b59b6; }
-        .map-toolbar h2 { margin: 0; color: #9b59b6; font-size: 1.5em; flex-grow: 1; }
-        .map-canvas { flex-grow: 1; position: relative; overflow: hidden; background: #2c3e50; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0); background-size: 24px 24px; }
-        
-        .map-node { position: absolute; background: #3498db; color: white; border: 3px solid #2980b9; padding: 12px 18px; border-radius: 8px; min-width: 120px; text-align: center; cursor: move; box-shadow: 4px 4px 10px rgba(0,0,0,0.3); user-select: none; font-weight: bold; z-index: 10; }
-        .map-node input { background: transparent; border: none; color: white; text-align: center; font-weight: bold; font-size: 14px; outline: none; width: 100%; }
-        .node-color-picker { display: block; margin-top: 5px; width: 100%; height: 15px; border: none; cursor: pointer; padding: 0; background: transparent; }
-        .node-del-btn { position: absolute; top: -8px; right: -8px; background: #c0392b; color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
-        .link-label-box { position: absolute; background: #e67e22; border: 1px solid #d35400; border-radius: 4px; padding: 2px 6px; font-size: 12px; color: white; pointer-events: auto; z-index: 20; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 4px; }
-        .link-label-box input { background: transparent; border: none; color: white; font-size: 11px; outline: none; font-weight: bold; width: 90px; text-align: center; }
-        .link-del-btn { background: rgba(0,0,0,0.3); border: none; color: white; border-radius: 50%; cursor: pointer; width: 14px; height: 14px; font-size: 8px; display: inline-flex; align-items: center; justify-content: center; }
 
         /* --- AUTO-SLIDING EDGE CHAT BADGE SYSTEM --- */
         .ai-badge-container { position: fixed; bottom: 50px; left: 0; z-index: 3000; display: flex; align-items: center; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -266,7 +250,6 @@
             <!-- Floating Action Panel Tray Layout -->
             <div class="floating-actions-tray">
                 <div class="action-btn btn-heart" id="heart-tray-toggle" onclick="toggleLoveDegreesPanel()" title="Toggle Love Degree Settings ❤️">❤️</div>
-                <div class="action-btn btn-map" onclick="openMapModal()" title="Open Relationship Map (關係圖) 🕸️">🕸️</div>
                 <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
                     🖼️
                     <input type="file" id="photo-uploader" accept="image/*" onchange="uploadCharacterMedia('image')">
@@ -278,27 +261,6 @@
                 <div class="action-btn btn-plus" onclick="toggleIdeaPopup()" title="Add Text Idea Box 💡">+</div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- RELATIONSHIP MAP OVERLAY FULLSCREEN BOX -->
-<div id="map-modal" class="map-overlay">
-    <div class="map-toolbar">
-        <h2 id="map-modal-title">🕸️ Character Relationship Map</h2>
-        <button onclick="spawnMapNode()" style="background: #3498db;">+ Add Character Box</button>
-        <button onclick="spawnMapLink()" style="background: #e67e22;">+ Connect Arrow Line</button>
-        <button onclick="closeMapModal()" style="background: #e74c3c; margin-left: 20px;">Save & Close Map ✖️</button>
-    </div>
-    <div id="map-workspace" class="map-canvas">
-        <svg id="map-svg-layer" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;">
-            <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#9b59b6"/>
-                </marker>
-            </defs>
-        </svg>
-        <div id="map-nodes-layer"></div>
-        <div id="map-labels-layer"></div>
     </div>
 </div>
 
@@ -355,13 +317,6 @@
     let aiIdleTimer = null;
     let globalDeadlineString = "Deadline: Not Set";
 
-    // Relationship Map Local Data
-    let mapNodes = [];
-    let mapLinks = [];
-    let draggedElement = null;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
-
     window.onload = function() {
         if(!localStorage.getItem('recentColors')) {
             localStorage.setItem('recentColors', JSON.stringify(defaultColors));
@@ -393,8 +348,6 @@
         });
 
         startAiIdleTracking();
-        window.addEventListener('mousemove', dragNodeMove);
-        window.addEventListener('mouseup', dragNodeEnd);
     };
 
     function updateTopMarquee() {
@@ -499,9 +452,6 @@
                 
                 localLoveDegrees = current.loveDegrees || [];
                 renderLoveDegreesList();
-
-                mapNodes = current.mapNodes || [];
-                mapLinks = current.mapLinks || [];
             } else {
                 document.getElementById('sketch-workspace-box').style.display = 'none';
             }
@@ -571,7 +521,7 @@
         let name = input.value.trim();
         if (name === '') return;
         const newDoc = await addDoc(collection(db, "characters"), {
-            name: name, pfp: "", loveDegrees: [], mapNodes: [], mapLinks: [], timestamp: Date.now()
+            name: name, pfp: "", loveDegrees: [], timestamp: Date.now()
         });
         activeCharacterId = newDoc.id;
         input.value = '';
@@ -763,203 +713,6 @@
             await deleteDoc(doc(db, "characters", id));
         }
     };
-
-    /* --- RELATIONSHIP MAP SYSTEM LOGIC --- */
-    window.openMapModal = function() {
-        let current = localChars.find(c => c.id === activeCharacterId);
-        if(!current) return;
-        document.getElementById('map-modal-title').innerText = `🕸️ Relationship Web: ${current.name}`;
-        document.getElementById('map-modal').style.display = 'flex';
-        
-        mapNodes = current.mapNodes || [];
-        mapLinks = current.mapLinks || [];
-        renderMapElements();
-    };
-
-    window.closeMapModal = async function() {
-        if(!activeCharacterId) return;
-        mapNodes.forEach(node => {
-            let el = document.getElementById(`node-input-${node.id}`);
-            if(el) node.name = el.value;
-        });
-        mapLinks.forEach(link => {
-            let el = document.getElementById(`link-input-${link.id}`);
-            if(el) link.label = el.value;
-        });
-
-        await updateDoc(doc(db, "characters", activeCharacterId), {
-            mapNodes: mapNodes,
-            mapLinks: mapLinks
-        });
-        document.getElementById('map-modal').style.display = 'none';
-    };
-
-    window.spawnMapNode = function() {
-        let id = "node_" + Date.now();
-        let newNode = {
-            id: id,
-            name: "Character Name",
-            x: 150 + Math.random() * 200,
-            y: 150 + Math.random() * 200,
-            color: "#3498db"
-        };
-        mapNodes.push(newNode);
-        renderMapElements();
-    };
-
-    window.spawnMapLink = function() {
-        if(mapNodes.length < 2) {
-            alert("Create at least 2 character boxes first to draw arrow connections!");
-            return;
-        }
-        let fromNode = prompt(`Enter number for Source Character Box: \n${mapNodes.map((n, i)=> `[${i+1}] ${n.name}`).join('\n')}`);
-        if(!fromNode) return;
-        let toNode = prompt(`Enter number for Target Character Box (Where arrow points):`);
-        if(!toNode) return;
-
-        let fromIdx = parseInt(fromNode, 10) - 1;
-        let toIdx = parseInt(toNode, 10) - 1;
-
-        if(isNaN(fromIdx) || isNaN(toIdx) || !mapNodes[fromIdx] || !mapNodes[toIdx]) {
-            alert("Invalid selection setup.");
-            return;
-        }
-
-        mapLinks.push({
-            id: "link_" + Date.now(),
-            from: mapNodes[fromIdx].id,
-            to: mapNodes[toIdx].id,
-            label: "Relationship"
-        });
-        renderMapElements();
-    };
-
-    function renderMapElements() {
-        let nodesLayer = document.getElementById('map-nodes-layer');
-        nodesLayer.innerHTML = '';
-
-        mapNodes.forEach(node => {
-            let div = document.createElement('div');
-            div.className = 'map-node';
-            div.id = node.id;
-            div.style.left = node.x + 'px';
-            div.style.top = node.y + 'px';
-            div.style.background = node.color || '#3498db';
-            div.style.borderColor = adjustColorBrightness(node.color || '#3498db', -20);
-            
-            div.innerHTML = `
-                <button class="node-del-btn" onclick="deleteMapNode('${node.id}')">✖</button>
-                <input type="text" id="node-input-${node.id}" value="${node.name}" onchange="updateNodeNameLocal('${node.id}', this.value)">
-                <input type="color" class="node-color-picker" value="${node.color || '#3498db'}" oninput="updateNodeColorLocal('${node.id}', this.value)">
-            `;
-            
-            div.addEventListener('mousedown', (e) => dragNodeStart(e, node));
-            nodesLayer.appendChild(div);
-        });
-
-        drawMapArrows();
-    }
-
-    function drawMapArrows() {
-        let svg = document.getElementById('map-svg-layer');
-        let labelsLayer = document.getElementById('map-labels-layer');
-        
-        let paths = svg.querySelectorAll('path');
-        paths.forEach(p => p.remove());
-        labelsLayer.innerHTML = '';
-
-        mapLinks.forEach(link => {
-            let fromEl = document.getElementById(link.from);
-            let toEl = document.getElementById(link.to);
-            if(!fromEl || !toEl) return;
-
-            let x1 = fromEl.offsetLeft + (fromEl.offsetWidth / 2);
-            let y1 = fromEl.offsetTop + (fromEl.offsetHeight / 2);
-            let x2 = toEl.offsetLeft + (toEl.offsetWidth / 2);
-            let y2 = toEl.offsetTop + (toEl.offsetHeight / 2);
-
-            let angle = Math.atan2(y2 - y1, x2 - x1);
-            let targetOffsetDist = 55; 
-            let arrowX2 = x2 - targetOffsetDist * Math.cos(angle);
-            let arrowY2 = y2 - targetOffsetDist * Math.sin(angle);
-
-            let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute("d", `M ${x1} ${y1} Q ${(x1+x2)/2} ${(y1+y2)/2} ${arrowX2} ${arrowY2}`);
-            path.setAttribute("stroke", "#9b59b6");
-            path.setAttribute("stroke-width", "3");
-            path.setAttribute("fill", "none");
-            path.setAttribute("marker-end", "url(#arrowhead)");
-            svg.appendChild(path);
-
-            let midX = (x1 + x2) / 2;
-            let midY = (y1 + y2) / 2;
-
-            let labelBox = document.createElement('div');
-            labelBox.className = 'link-label-box';
-            labelBox.style.left = midX + 'px';
-            labelBox.style.top = midY + 'px';
-            labelBox.innerHTML = `
-                <input type="text" id="link-input-${link.id}" value="${link.label}" onchange="updateLinkLabelLocal('${link.id}', this.value)">
-                <button class="link-del-btn" onclick="deleteMapLink('${link.id}')">✖</button>
-            `;
-            labelsLayer.appendChild(labelBox);
-        });
-    }
-
-    function dragNodeStart(e, node) {
-        if(e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
-        draggedElement = node;
-        dragOffsetX = e.clientX - node.x;
-        dragOffsetY = e.clientY - node.y;
-    }
-    
-    function dragNodeMove(e) {
-        if(!draggedElement) return;
-        draggedElement.x = e.clientX - dragOffsetX;
-        draggedElement.y = e.clientY - dragOffsetY;
-
-        let el = document.getElementById(draggedElement.id);
-        if(el) {
-            el.style.left = draggedElement.x + 'px';
-            el.style.top = draggedElement.y + 'px';
-            drawMapArrows();
-        }
-    }
-    function dragNodeEnd() { draggedElement = null; }
-
-    window.updateNodeNameLocal = function(id, val) { let n = mapNodes.find(x => x.id === id); if(n) n.name = val; };
-    window.updateLinkLabelLocal = function(id, val) { let l = mapLinks.find(x => x.id === id); if(l) l.label = val; };
-    window.updateNodeColorLocal = function(id, color) {
-        let n = mapNodes.find(x => x.id === id);
-        if(n) {
-            n.color = color;
-            let el = document.getElementById(id);
-            if(el) {
-                el.style.background = color;
-                el.style.borderColor = adjustColorBrightness(color, -20);
-            }
-        }
-    };
-
-    window.deleteMapNode = function(id) {
-        mapNodes = mapNodes.filter(n => n.id !== id);
-        mapLinks = mapLinks.filter(l => l.from !== id && l.to !== id);
-        renderMapElements();
-    };
-    window.deleteMapLink = function(id) {
-        mapLinks = mapLinks.filter(l => l.id !== id);
-        renderMapElements();
-    };
-
-    function adjustColorBrightness(hex, percent) {
-        let R = parseInt(hex.substring(1,3),16), G = parseInt(hex.substring(3,5),16), B = parseInt(hex.substring(5,7),16);
-        R = parseInt(R * (100 + percent) / 100); G = parseInt(G * (100 + percent) / 100); B = parseInt(B * (100 + percent) / 100);
-        R = (R<255)?R:255; G = (G<255)?G:255; B = (B<255)?B:255;
-        let rHex = (R.toString(16).length==1)?"0"+R.toString(16):R.toString(16);
-        let gHex = (G.toString(16).length==1)?"0"+G.toString(16):G.toString(16);
-        let bHex = (B.toString(16).length==1)?"0"+B.toString(16):B.toString(16);
-        return "#"+rHex+gHex+bHex;
-    }
 
     /* --- AUTO-SLIDING CHAT BUTTON LOGIC --- */
     window.handleBadgeClick = function() {
