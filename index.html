@@ -58,7 +58,7 @@
         .todo-item input[type="checkbox"] { transform: scale(1.6); cursor: pointer; margin-right: 6px; }
         .completed { text-decoration: line-through; color: #7f8c8d; opacity: 0.6; }
 
-        /* Character Folder Manager Grid UI Updates */
+        /* Folder Manager Grid */
         .folder-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
         .char-folder { background: #3498db; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 10px; font-size: 15px; position: relative; }
         .char-folder:hover { background: #2980b9; }
@@ -66,26 +66,33 @@
         .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; }
         .char-delete:hover { background: #c0392b; }
 
-        /* Social Media Style PFP Circle */
+        /* PFPs */
         .char-pfp-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; background: #7f8c8d; object-fit: cover; display: inline-block; vertical-align: middle; }
         .workspace-pfp-container { position: relative; display: inline-block; cursor: pointer; }
         .workspace-pfp-container:hover::after { content: 'Change PFP 📸'; position: absolute; bottom: -20px; left: 0; font-size: 10px; background: rgba(0,0,0,0.8); color: white; padding: 2px 5px; border-radius: 4px; white-space: nowrap; }
         .workspace-pfp { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #3498db; background: #7f8c8d; object-fit: cover; }
 
-        /* --- UPDATED CLEAN WORKSPACE WITHOUT EXTRA TEXT --- */
+        /* Workspace Grid Box */
         .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 12px; padding: 25px; margin-top: 20px; border: 3px solid #34495e; min-height: 450px; position: relative; }
         .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #34495e; padding-bottom: 15px; gap: 15px; flex-wrap: wrap; }
         .sketch-char-name-wrapper { display: flex; align-items: center; gap: 15px; }
         .sketch-char-name { font-size: 1.6em; font-weight: bold; border: 2px solid #3498db; padding: 6px 20px; background: #34495e; border-radius: 8px; color: #3498db; }
         
-        /* --- CUSTOM PATTERN METRIC SUBPANEL --- */
-        .affection-meter-region { display: flex; align-items: center; gap: 15px; background: rgba(52, 73, 94, 0.6); padding: 15px 20px; border-radius: 10px; border: 2px dashed #e74c3c; margin-bottom: 25px; flex-wrap: wrap; }
-        .heart-badge { font-size: 28px; line-height: 1; user-select: none; animation: pulse 2s infinite alternate; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
-        .metric-field-group { display: flex; align-items: center; gap: 10px; }
-        .metric-label { font-weight: bold; color: #f1c40f; font-size: 15px; }
-        .metric-text-box { background: #2c3e50; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; color: white; font-size: 14px; width: 140px; font-weight: bold; }
-        .metric-details-box { flex-grow: 1; min-width: 280px; background: #2c3e50; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; color: white; font-size: 14px; }
+        /* --- AS SEEN IN YOUR DRAWING: LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- */
+        .love-degrees-panel { background: #34495e; border: 3px solid #e74c3c; border-radius: 12px; padding: 20px; margin-bottom: 25px; display: none; position: relative; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .love-degrees-panel::after { content: ''; position: absolute; bottom: -15px; right: 185px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #e74c3c; }
+        
+        .love-degree-item { background: #2c3e50; padding: 15px; border-radius: 8px; border-left: 5px solid #e74c3c; margin-bottom: 15px; position: relative; }
+        .love-degree-header { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .love-degree-title-in { background: #34495e; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 6px 12px; font-weight: bold; font-size: 14px; flex-grow: 1; }
+        .love-degree-rate-in { background: #34495e; color: #f1c40f; border: 1px solid #7f8c8d; border-radius: 4px; padding: 6px 12px; font-weight: bold; font-size: 14px; width: 120px; text-align: center; }
+        .love-degree-desc { width: 100%; height: 50px; background: #34495e; color: #ecf0f1; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; font-size: 13px; resize: none; }
+        
+        /* The dynamic plus box inside love container */
+        .add-degree-btn-box { width: 45px; height: 45px; border: 2px dashed #e74c3c; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #e74c3c; cursor: pointer; font-weight: bold; user-select: none; transition: background 0.2s; }
+        .add-degree-btn-box:hover { background: rgba(231, 76, 60, 0.1); }
+        .degree-item-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #bdc3c7; cursor: pointer; font-size: 12px; }
+        .degree-item-delete:hover { color: #e74c3c; }
 
         .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .color-ball-filters { display: flex; gap: 6px; align-items: center; }
@@ -108,11 +115,13 @@
         .idea-box-delete { position: absolute; top: 10px; right: 10px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; align-items: center; justify-content: center; z-index: 5; }
         .idea-box-delete:hover { background: #c0392b; }
 
-        /* Floating action buttons tray */
+        /* Floating action tray directly matching your layout array */
         .floating-actions-tray { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 12px; align-items: center; z-index: 10; }
         .action-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; user-select: none; }
         .action-btn:hover { transform: scale(1.08); }
         .action-btn input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .btn-heart { background: #e74c3c; }
+        .btn-heart.active { box-shadow: 0 0 14px #e74c3c; border-color: white; }
         .btn-plus { background: #2ecc71; font-size: 28px; font-weight: bold; }
         .btn-photo { background: #3498db; }
         .btn-word { background: #e67e22; }
@@ -221,14 +230,13 @@
                 </div>
             </div>
 
-            <!-- --- CLEANED UP HEART REGION WITH ADJUSTABLE TEXTBOXES --- -->
-            <div class="affection-meter-region">
-                <div class="heart-badge">❤️</div>
-                <div class="metric-field-group">
-                    <span class="metric-label">Affection Meter:</span>
-                    <input type="text" id="char-affection-level" class="metric-text-box" placeholder="e.g. 50% or Neutral" onchange="saveWorkspaceMetrics()">
-                </div>
-                <input type="text" id="char-affection-details" class="metric-details-box" placeholder="Add details on how they treat you or story triggers..." onchange="saveWorkspaceMetrics()">
+            <!-- --- AS SEEN IN IMAGE: DYNAMIC MULTI-LOVE DEGREE SUBPANEL --- -->
+            <div id="love-degrees-container-box" class="love-degrees-panel">
+                <h3 style="margin: 0 0 15px 0; color: #e74c3c; font-size: 16px; border-bottom: 1px solid #7f8c8d; padding-bottom: 5px;">❤️ Relationship Values & Love Degrees</h3>
+                <div id="love-degrees-list-target"></div>
+                
+                <!-- The + Add Box container underneath your items -->
+                <div class="add-degree-btn-box" onclick="addNewLoveDegreeItem()" title="Add custom love degree row!">+</div >
             </div>
 
             <div id="idea-boxes" class="idea-boxes-container"></div>
@@ -252,8 +260,9 @@
                 </div>
             </div>
 
-            <!-- Floating Action Panel Tray -->
+            <!-- Floating Action Panel Tray Layout Matched exactly to your image -->
             <div class="floating-actions-tray">
+                <div class="action-btn btn-heart" id="heart-tray-toggle" onclick="toggleLoveDegreesPanel()" title="Toggle Love Degree Settings ❤️">❤️</div>
                 <div class="action-btn btn-map" onclick="openMapModal()" title="Open Relationship Map (關係圖) 🕸️">🕸️</div>
                 <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
                     🖼️
@@ -278,7 +287,6 @@
         <button onclick="closeMapModal()" style="background: #e74c3c; margin-left: 20px;">Save & Close Map ✖️</button>
     </div>
     <div id="map-workspace" class="map-canvas">
-        <!-- SVG Canvas layer for tracking dynamic arrow coordinates -->
         <svg id="map-svg-layer" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;">
             <defs>
                 <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
@@ -309,7 +317,7 @@
         <button class="ai-chat-close" onclick="closeAiChatWindow()">X</button>
     </div>
     <div class="ai-messages" id="ai-messages-box">
-        <div class="msg helper">Hi friend!! I am SO excited to help you build your game today! 🎉 Let's build something magical! 🚀🌟</div>
+        <div class="msg helper">Hi friend!! Let's build something magical! 🚀🌟</div>
     </div>
     <div class="ai-chat-footer">
         <input type="text" id="ai-input" placeholder="Type here for a boost of positivity..." onkeydown="if(event.key==='Enter') sendAiMessage()">
@@ -336,6 +344,7 @@
     let localGoals = [];
     let localChars = [];
     let localIdeas = [];
+    let localLoveDegrees = []; // Holds items for current character folder
     
     let activeCharacterId = null;
     let selectedColorFilter = 'all'; 
@@ -343,7 +352,7 @@
     let aiIdleTimer = null;
     let globalDeadlineString = "Deadline: Not Set";
 
-    // Relationship Map Local Data Stores
+    // Relationship Map Local Data
     let mapNodes = [];
     let mapLinks = [];
     let draggedElement = null;
@@ -381,8 +390,6 @@
         });
 
         startAiIdleTracking();
-
-        // Bind global window drag release listener
         window.addEventListener('mousemove', dragNodeMove);
         window.addEventListener('mouseup', dragNodeEnd);
     };
@@ -487,11 +494,9 @@
                 document.getElementById('sketch-title').innerText = current.name;
                 document.getElementById('workspace-avatar-view').src = current.pfp || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ecf0f1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
                 
-                // Load Custom Extracted Affection Fields safely
-                document.getElementById('char-affection-level').value = current.affectionLevel || "";
-                document.getElementById('char-affection-details').value = current.affectionDetails || "";
+                localLoveDegrees = current.loveDegrees || [];
+                renderLoveDegreesList();
 
-                // Hydrate Map Data structural variables
                 mapNodes = current.mapNodes || [];
                 mapLinks = current.mapLinks || [];
             } else {
@@ -500,12 +505,62 @@
         }
     }
 
-    window.saveWorkspaceMetrics = async function() {
-        if(!activeCharacterId) return;
-        await updateDoc(doc(db, "characters", activeCharacterId), {
-            affectionLevel: document.getElementById('char-affection-level').value,
-            affectionDetails: document.getElementById('char-affection-details').value
+    /* --- RENDERING AND MANAGEMENT OF INTERACTIVE DEGREES --- */
+    window.toggleLoveDegreesPanel = function() {
+        let panel = document.getElementById('love-degrees-container-box');
+        let btn = document.getElementById('heart-tray-toggle');
+        if(panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            btn.classList.add('active');
+        } else {
+            panel.style.display = 'none';
+            btn.classList.remove('active');
+        }
+    };
+
+    function renderLoveDegreesList() {
+        let target = document.getElementById('love-degrees-list-target');
+        let html = '';
+        if(localLoveDegrees.length === 0) {
+            target.innerHTML = `<p style="color: #bdc3c7; font-size: 13px; font-style: italic; margin-bottom: 15px;">Click the + button below to create custom love meters or status stats!</p>`;
+            return;
+        }
+
+        localLoveDegrees.forEach((item, index) => {
+            html += `
+                <div class="love-degree-item">
+                    <button class="degree-item-delete" onclick="deleteLoveDegreeItem(${index})">✖ Delete</button>
+                    <div class="love-degree-header">
+                        <input type="text" class="love-degree-title-in" value="${item.title || ''}" placeholder="Love degree (?):" onchange="updateLoveDegreeData(${index}, 'title', this.value)">
+                        <input type="text" class="love-degree-rate-in" value="${item.rate || ''}" placeholder="0-10%" onchange="updateLoveDegreeData(${index}, 'rate', this.value)">
+                    </div>
+                    <textarea class="love-degree-desc" placeholder="Type behavior context, story notes or condition detail rules here..." onchange="updateLoveDegreeData(${index}, 'desc', this.value)">${item.desc || ''}</textarea>
+                </div>
+            `;
         });
+        target.innerHTML = html;
+    }
+
+    window.addNewLoveDegreeItem = async function() {
+        if(!activeCharacterId) return;
+        localLoveDegrees.push({
+            title: "Love degree(?):",
+            rate: "0-10%",
+            desc: ""
+        });
+        await updateDoc(doc(db, "characters", activeCharacterId), { loveDegrees: localLoveDegrees });
+    };
+
+    window.updateLoveDegreeData = async function(index, field, value) {
+        if(!activeCharacterId) return;
+        localLoveDegrees[index][field] = value;
+        await updateDoc(doc(db, "characters", activeCharacterId), { loveDegrees: localLoveDegrees });
+    };
+
+    window.deleteLoveDegreeItem = async function(index) {
+        if(!activeCharacterId) return;
+        localLoveDegrees.splice(index, 1);
+        await updateDoc(doc(db, "characters", activeCharacterId), { loveDegrees: localLoveDegrees });
     };
 
     window.addCharacter = async function() {
@@ -513,7 +568,7 @@
         let name = input.value.trim();
         if (name === '') return;
         const newDoc = await addDoc(collection(db, "characters"), {
-            name: name, pfp: "", affectionLevel: "", affectionDetails: "", mapNodes: [], mapLinks: [], timestamp: Date.now()
+            name: name, pfp: "", loveDegrees: [], mapNodes: [], mapLinks: [], timestamp: Date.now()
         });
         activeCharacterId = newDoc.id;
         input.value = '';
@@ -537,6 +592,8 @@
         document.getElementById('sketch-workspace-box').style.display = 'block';
         document.getElementById('idea-search').value = '';
         selectedColorFilter = 'all'; 
+        document.getElementById('love-degrees-container-box').style.display = 'none';
+        document.getElementById('heart-tray-toggle').classList.remove('active');
         document.getElementById('idea-popup-box').style.display = 'none';
 
         if(unsubscribeIdeas) unsubscribeIdeas();
@@ -553,7 +610,7 @@
         let boxContainer = document.getElementById('idea-boxes');
         let html = '';
         if (localIdeas.length === 0) {
-            boxContainer.innerHTML = '<p style="color: #7f8c8d; text-align: center; font-style: italic; margin-top:30px;">Empty folder. Drop photos, word files, or text notes down below!</p>';
+            boxContainer.innerHTML = '<p style="color: #7f8c8d; text-align: center; font-style: italic; margin-top:30px;">Empty folder. Add photos, word assets, or ideas down below!</p>';
             return;
         }
         localIdeas.forEach((idea) => {
@@ -704,7 +761,7 @@
         }
     };
 
-    /* --- RELATIONSHIP MAP SYSTEM LOGIC (關係圖 SCREEN) --- */
+    /* --- RELATIONSHIP MAP SYSTEM LOGIC --- */
     window.openMapModal = function() {
         let current = localChars.find(c => c.id === activeCharacterId);
         if(!current) return;
@@ -752,16 +809,16 @@
             alert("Create at least 2 character boxes first to draw arrow connections!");
             return;
         }
-        let fromNode = prompt(`Enter number or name for Source Character Box (Available items: ${mapNodes.map((n, i)=> `[${i+1}] ${n.name}`).join(', ')})`);
+        let fromNode = prompt(`Enter number for Source Character Box: \n${mapNodes.map((n, i)=> `[${i+1}] ${n.name}`).join('\n')}`);
         if(!fromNode) return;
-        let toNode = prompt(`Enter number or name for Target Character Box (Where arrow points)`);
+        let toNode = prompt(`Enter number for Target Character Box (Where arrow points):`);
         if(!toNode) return;
 
         let fromIdx = parseInt(fromNode, 10) - 1;
         let toIdx = parseInt(toNode, 10) - 1;
 
         if(isNaN(fromIdx) || isNaN(toIdx) || !mapNodes[fromIdx] || !mapNodes[toIdx]) {
-            alert("Invalid selection setup. Please choose correct box index numbers.");
+            alert("Invalid selection setup.");
             return;
         }
 
@@ -793,7 +850,6 @@
                 <input type="color" class="node-color-picker" value="${node.color || '#3498db'}" oninput="updateNodeColorLocal('${node.id}', this.value)">
             `;
             
-            // FIX: This binds drag handlers directly to newly rendered instances properly so they don't lock up!
             div.addEventListener('mousedown', (e) => dragNodeStart(e, node));
             nodesLayer.appendChild(div);
         });
@@ -957,13 +1013,7 @@
 
         setTimeout(() => {
             document.getElementById('ai-typing').remove();
-            let cheers = [
-                "You are making such incredible progress! Game development takes time, but look at you go! 🌟 Keep it up, you superstar!",
-                "Wow, this thought process is completely unique. Your player base is going to love your creativity! I'm cheering so hard for you! 📣💖",
-                "Don't ever doubt your skills! Rome wasn't built in a day, and amazing video games take heart. You are doing beautiful work! 🏆"
-            ];
-            let randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
-            let reply = `Ooooh, I love this! 😍 ${randomCheer} Everything looks correct and matches your game vibes flawlessly!`;
+            let reply = `Ooooh, I love this! 😍 Everything looks correct and matches your game vibes flawlessly!`;
             msgBox.innerHTML += `<div class="msg helper">${reply}</div>`;
             msgBox.scrollTop = msgBox.scrollHeight;
         }, 1300);
@@ -971,4 +1021,3 @@
 </script>
 </body>
 </html>
-
