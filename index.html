@@ -83,16 +83,19 @@
         .love-degrees-panel::after { content: ''; position: absolute; bottom: -15px; right: 185px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #e74c3c; }
         
         .love-degree-item { background: #2c3e50; padding: 15px; border-radius: 8px; border-left: 5px solid #e74c3c; margin-bottom: 15px; position: relative; }
-        .love-degree-header { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .love-degree-title-in { background: #34495e; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 6px 12px; font-weight: bold; font-size: 14px; flex-grow: 1; }
-        .love-degree-rate-in { background: #34495e; color: #f1c40f; border: 1px solid #7f8c8d; border-radius: 4px; padding: 6px 12px; font-weight: bold; font-size: 14px; width: 120px; text-align: center; }
-        .love-degree-desc { width: 100%; height: 50px; background: #34495e; color: #ecf0f1; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; font-size: 13px; resize: none; }
+        .love-degree-header { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+        .love-degree-title-in { background: #34495e; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; font-weight: bold; font-size: 14px; flex-grow: 1; box-sizing: border-box; height: 38px; }
+        .love-degree-rate-in { background: #34495e; color: #f1c40f; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px 12px; font-weight: bold; font-size: 14px; width: 100px; text-align: center; box-sizing: border-box; height: 38px; }
+        
+        /* --- INLINE DELETE BUTTON DESIGN --- */
+        .love-degree-delete-btn { background: #c0392b; color: white; border: none; border-radius: 4px; padding: 0 14px; font-weight: bold; font-size: 13px; cursor: pointer; height: 38px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .love-degree-delete-btn:hover { background: #962d22; }
+
+        .love-degree-desc { width: 100%; height: 60px; background: #34495e; color: #ecf0f1; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; font-size: 13px; resize: none; box-sizing: border-box; }
         
         /* The dynamic plus box inside love container */
         .add-degree-btn-box { width: 45px; height: 45px; border: 2px dashed #e74c3c; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #e74c3c; cursor: pointer; font-weight: bold; user-select: none; transition: background 0.2s; }
         .add-degree-btn-box:hover { background: rgba(231, 76, 60, 0.1); }
-        .degree-item-delete { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #bdc3c7; cursor: pointer; font-size: 12px; }
-        .degree-item-delete:hover { color: #e74c3c; }
 
         .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .color-ball-filters { display: flex; gap: 6px; align-items: center; }
@@ -230,12 +233,12 @@
                 </div>
             </div>
 
-            <!-- --- AS SEEN IN IMAGE: DYNAMIC MULTI-LOVE DEGREE SUBPANEL --- -->
+            <!-- --- LOVE DEGREES OVERLAY SPEECH/DIALOG BOX CONTAINER --- -->
             <div id="love-degrees-container-box" class="love-degrees-panel">
                 <h3 style="margin: 0 0 15px 0; color: #e74c3c; font-size: 16px; border-bottom: 1px solid #7f8c8d; padding-bottom: 5px;">❤️ Relationship Values & Love Degrees</h3>
                 <div id="love-degrees-list-target"></div>
                 
-                <!-- The + Add Box container underneath your items -->
+                <!-- The + Add Box container underneath items -->
                 <div class="add-degree-btn-box" onclick="addNewLoveDegreeItem()" title="Add custom love degree row!">+</div >
             </div>
 
@@ -260,7 +263,7 @@
                 </div>
             </div>
 
-            <!-- Floating Action Panel Tray Layout Matched exactly to your image -->
+            <!-- Floating Action Panel Tray Layout -->
             <div class="floating-actions-tray">
                 <div class="action-btn btn-heart" id="heart-tray-toggle" onclick="toggleLoveDegreesPanel()" title="Toggle Love Degree Settings ❤️">❤️</div>
                 <div class="action-btn btn-map" onclick="openMapModal()" title="Open Relationship Map (關係圖) 🕸️">🕸️</div>
@@ -278,7 +281,7 @@
     </div>
 </div>
 
-<!-- RELATIONSHIP MAP OVERLAY FULLSCREEN BOX (關係圖 SCREEN) -->
+<!-- RELATIONSHIP MAP OVERLAY FULLSCREEN BOX -->
 <div id="map-modal" class="map-overlay">
     <div class="map-toolbar">
         <h2 id="map-modal-title">🕸️ Character Relationship Map</h2>
@@ -344,7 +347,7 @@
     let localGoals = [];
     let localChars = [];
     let localIdeas = [];
-    let localLoveDegrees = []; // Holds items for current character folder
+    let localLoveDegrees = []; 
     
     let activeCharacterId = null;
     let selectedColorFilter = 'all'; 
@@ -529,10 +532,10 @@
         localLoveDegrees.forEach((item, index) => {
             html += `
                 <div class="love-degree-item">
-                    <button class="degree-item-delete" onclick="deleteLoveDegreeItem(${index})">✖ Delete</button>
                     <div class="love-degree-header">
                         <input type="text" class="love-degree-title-in" value="${item.title || ''}" placeholder="Love degree (?):" onchange="updateLoveDegreeData(${index}, 'title', this.value)">
                         <input type="text" class="love-degree-rate-in" value="${item.rate || ''}" placeholder="0-10%" onchange="updateLoveDegreeData(${index}, 'rate', this.value)">
+                        <button class="love-degree-delete-btn" onclick="deleteLoveDegreeItem(${index})">Delete ✖</button>
                     </div>
                     <textarea class="love-degree-desc" placeholder="Type behavior context, story notes or condition detail rules here..." onchange="updateLoveDegreeData(${index}, 'desc', this.value)">${item.desc || ''}</textarea>
                 </div>
@@ -545,7 +548,7 @@
         if(!activeCharacterId) return;
         localLoveDegrees.push({
             title: "Love degree(?):",
-            rate: "0-10%",
+            rate: "4%",
             desc: ""
         });
         await updateDoc(doc(db, "characters", activeCharacterId), { loveDegrees: localLoveDegrees });
