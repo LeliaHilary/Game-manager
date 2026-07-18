@@ -11,76 +11,123 @@
         .card { background: #34495e; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; }
         h2 { margin-top: 0; color: #e74c3c; }
         
+        /* Local Backup Bar */
         .local-backup-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; }
         .btn-backup { background: #e67e22 !important; font-size: 13px !important; padding: 6px 12px !important; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
         .btn-restore { background: #2ecc71 !important; font-size: 13px !important; padding: 6px 12px !important; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
-        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: #34495e; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; width: 320px; border: 2px solid #3498db; }
-        .login-box input { width: 100%; padding: 10px; margin: 10px 0; background: #2c3e50; border: 1px solid #7f8c8d; border-radius: 4px; color: white; font-size: 16px; box-sizing: border-box; text-align: center; }
-        
+        /* Time Selector Layout */
         .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px dashed #7f8c8d; }
         .title-label { font-size: 1.5em; font-weight: bold; color: #e74c3c; margin: 0; }
-        select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.5em; font-weight: bold; border-radius: 4px; padding: 2px 5px; cursor: pointer; }
+        select.time-select { background: #e74c3c; color: white; border: none; font-size: 1.5em; font-weight: bold; border-radius: 4px; padding: 2px 5px; cursor: pointer; outline: none; }
         input.time-input { background: transparent; color: #e74c3c; border: none; font-size: 1.5em; font-weight: bold; width: 120px; outline: none; }
 
-        textarea { width: 100%; height: 100px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; }
+        /* Inputs and Textareas */
+        textarea { width: 100%; height: 100px; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; resize: vertical; }
         input[type="text"].standard-in { background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; width: 70%; box-sizing: border-box; }
         
+        /* Buttons */
         button { background: #2ecc71; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #27ae60; }
         .btn-delete { background: #c0392b; padding: 4px 8px; font-size: 12px; margin-left: 10px; color: white; border-radius: 4px; }
+        .btn-delete:hover { background: #962d22; }
 
+        /* Goal list items */
         .todo-list { list-style: none; padding: 0; }
         .todo-item { display: flex; align-items: center; justify-content: space-between; background: #2c3e50; padding: 10px; margin-bottom: 8px; border-radius: 4px; }
         .todo-left { display: flex; align-items: center; gap: 10px; width: 80%; }
+        .todo-item input[type="checkbox"] { transform: scale(1.2); cursor: pointer; }
         .completed { text-decoration: line-through; color: #7f8c8d; }
 
+        /* Character Folder Styles */
         .folder-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
-        .char-folder { background: #3498db; color: white; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .char-folder { background: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .char-folder:hover { background: #2980b9; }
         .char-folder.active { background: #e67e22; }
-        .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
+        .char-delete { background: rgba(0,0,0,0.2); border: none; color: white; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
+        .char-delete:hover { background: #c0392b; }
 
+        /* --- WORKSPACE --- */
         .sketch-workspace { background: #2c3e50; color: #ecf0f1; border-radius: 8px; padding: 20px; margin-top: 15px; border: 2px solid #34495e; min-height: 400px; position: relative; }
-        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #34495e; padding-bottom: 10px; }
+        .sketch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #34495e; padding-bottom: 10px; gap: 15px; flex-wrap: wrap; }
         .sketch-char-name { font-size: 1.5em; font-weight: bold; border: 2px solid #3498db; padding: 5px 15px; background: #34495e; border-radius: 6px; color: #3498db; }
         
-        .search-wrapper { display: flex; align-items: center; gap: 12px; }
-        .sketch-search-banner { background: #2980b9; border-radius: 6px; padding: 5px 10px; display: flex; align-items: center; }
-        .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; outline: none; width: 120px; }
+        /* Layout for Round Filter Balls */
+        .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .color-ball-filters { display: flex; gap: 6px; align-items: center; }
+        
+        .filter-ball { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #7f8c8d; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .filter-ball:hover { transform: scale(1.15); }
+        .filter-ball.active { border-color: white; box-shadow: 0 0 8px white; transform: scale(1.1); }
+        .all-colors-ball { background: linear-gradient(45deg, #e74c3c, #3498db, #2ecc71, #f1c40f); }
 
+        .sketch-search-banner { background: #2980b9; border: 2px solid #2c3e50; border-radius: 6px; padding: 5px 10px; display: flex; align-items: center; gap: 5px; }
+        .sketch-search-banner input { background: transparent; border: none; color: white; font-size: 1em; font-weight: bold; outline: none; width: 120px; }
+        .sketch-search-banner input::placeholder { color: #e0e0e0; }
+
+        /* Custom Colored Idea Boxes & Media Containers */
         .idea-boxes-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 80px; }
-        .red-idea-box { color: white; border-radius: 12px; padding: 15px; font-weight: bold; position: relative; word-wrap: break-word; }
-        .idea-box-delete { position: absolute; top: 8px; right: 8px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 22px; height: 22px; }
+        .red-idea-box { color: white; border: 2px solid #2c3e50; border-radius: 12px; padding: 15px; font-weight: bold; box-shadow: 3px 3px 0px #1a252f; position: relative; word-wrap: break-word; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
+        
+        /* Media Attachment Boxes */
+        .media-box { background: #34495e; border: 2px dashed #3498db; border-radius: 12px; padding: 12px; position: relative; box-shadow: 3px 3px 0px #1a252f; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .media-box img { max-width: 100%; max-height: 250px; border-radius: 6px; border: 2px solid #2c3e50; }
+        .doc-badge { display: flex; align-items: center; gap: 10px; background: #2c3e50; padding: 10px 20px; border-radius: 6px; font-weight: bold; width: 90%; box-sizing: border-box; border-left: 5px solid #e67e22; }
+        
+        .idea-box-delete { position: absolute; top: 8px; right: 8px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+        .idea-box-delete:hover { background: #c0392b; }
 
-        .floating-actions-tray { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; }
-        .action-btn { width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
+        /* Color Picker Section Inside Popup */
+        .color-picker-section { margin: 10px 0; background: #2c3e50; padding: 10px; border-radius: 6px; border: 1px solid #7f8c8d; }
+        .color-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .color-wheel { border: none; background: transparent; width: 40px; height: 40px; cursor: pointer; }
+        .recent-colors-title { font-size: 12px; color: #bdc3c7; margin: 5px 0; font-weight: normal; }
+        .recent-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+        .swatch { width: 25px; height: 25px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+        /* --- UTILITY FLOATING ACTIONS TRAY --- */
+        .floating-actions-tray { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; align-items: center; z-index: 10; }
+        .action-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #2c3e50; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: transform 0.1s; position: relative; }
+        .action-btn:hover { transform: scale(1.08); }
+        .action-btn input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        
         .btn-plus { background: #2ecc71; font-size: 26px; font-weight: bold; }
+        .btn-photo { background: #3498db; }
+        .btn-word { background: #e67e22; }
 
-        .idea-popup { background: #34495e; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
+        /* Idea Input Popup Box */
+        .idea-popup { background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; padding: 15px; margin-top: 10px; display: none; }
+
+        /* --- FLOATING AI HELPER SYSTEM --- */
+        .ai-chat-badge { position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px; background: #9b59b6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 1000; transition: transform 0.2s; border: 2px solid #2c3e50; user-select: none; font-family: sans-serif; }
+        .ai-chat-badge:hover { transform: scale(1.1); background: #8e44ad; }
+        
+        .ai-chat-window { position: fixed; bottom: 90px; left: 20px; width: 340px; height: 420px; background: #34495e; border: 2px solid #9b59b6; border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 1000; overflow: hidden; }
+        .ai-chat-header { background: #9b59b6; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .ai-chat-close { background: transparent; border: none; color: white; font-size: 16px; cursor: pointer; font-weight: bold; }
+        
+        .ai-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #2c3e50; }
+        .msg { max-width: 85%; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+        .msg.helper { background: #34495e; color: #ecf0f1; align-self: flex-start; border-left: 4px solid #9b59b6; }
+        .msg.user { background: #9b59b6; color: white; align-self: flex-end; }
+        
+        .ai-chat-footer { padding: 10px; display: flex; gap: 6px; background: #34495e; border-top: 1px solid #7f8c8d; }
+        .ai-chat-footer input { flex: 1; background: #2c3e50; color: white; border: 1px solid #7f8c8d; border-radius: 4px; padding: 8px; outline: none; }
     </style>
 </head>
 <body>
 
-<div class="login-overlay" id="login-gate">
-    <div class="login-box">
-        <h2 style="color: #3498db; margin:0; margin-bottom: 5px;">🔒 HQ Authentication</h2>
-        <p style="font-size:13px; color:#bdc3c7; margin: 0 0 15px 0;">Enter Account Name and Password</p>
-        <input type="text" id="login-username" placeholder="Account Name...">
-        <input type="password" id="login-pass-input" placeholder="Password...">
-        <button onclick="attemptLogin()" style="width:100%; padding:10px; font-size:16px; margin-top: 10px;">Access Dashboard</button>
-        <div id="login-error" style="color:#e74c3c; margin-top:10px; font-size:13px; font-weight:bold;"></div>
-    </div>
-</div>
-
 <div class="container">
     <h1>🎮 Game Dev HQ 🎮</h1>
 
+    <!-- 💾 Manual Backup Security Bar 💾 -->
     <div class="local-backup-bar">
         <button class="btn-backup" onclick="downloadDataBackup()">💾 Save Dashboard to iPad</button>
         <button class="btn-restore" onclick="document.getElementById('emergency-loader').click()">📂 Load iPad Backup</button>
         <input type="file" id="emergency-loader" accept=".json" style="display: none;" onchange="importDataBackup(event)">
     </div>
     
+    <!-- Goals Card -->
     <div class="card">
         <div class="title-row">
             <span class="title-label">🎯 Goals for This</span>
@@ -91,6 +138,7 @@
             </select>
             <input type="text" id="time-value" class="time-input" value="1" oninput="saveTimeSettings()">
         </div>
+        
         <div style="margin-bottom: 15px;">
             <input type="text" id="new-goal-input" class="standard-in" placeholder="Type a new goal here...">
             <button onclick="addGoal()">Add Goal</button>
@@ -98,83 +146,152 @@
         <ul id="todo-list" class="todo-list"></ul>
     </div>
 
+    <!-- Character Manager Card -->
     <div class="card">
         <h2>👥 Character Folder Manager</h2>
+        
         <div style="margin-bottom: 15px;">
             <input type="text" id="new-char-input" class="standard-in" placeholder="Type character name here...">
             <button onclick="addCharacter()" style="background: #3498db;">Add Character</button>
         </div>
+
         <div id="character-folders" class="folder-container"></div>
 
+        <!-- Workspace Section -->
         <div id="sketch-workspace-box" class="sketch-workspace" style="display: none;">
             <div class="sketch-header">
                 <div id="sketch-title" class="sketch-char-name">Character Name</div>
+                
+                <!-- Search wrapper with color filters -->
                 <div class="search-wrapper">
+                    <div id="color-ball-container" class="color-ball-filters"></div>
+
                     <div class="sketch-search-banner">
                         <input type="text" id="idea-search" placeholder="Search 🔍" oninput="filterIdeas()">
                     </div>
                 </div>
             </div>
+
+            <!-- Custom Content Boxes Container (Ideas, Photos, Docs) -->
             <div id="idea-boxes" class="idea-boxes-container"></div>
-            
+
+            <!-- New Idea Form Popup Box -->
             <div id="idea-popup-box" class="idea-popup">
                 <h4 style="margin: 0 0 10px 0;">💡 Write down an idea:</h4>
-                <textarea id="new-idea-text" placeholder="Type setting, skill, story beat..."></textarea>
-                <div style="margin: 10px 0;">
-                    <label>Box Color:</label>
-                    <input type="color" id="idea-color" value="#e74c3c">
+                <textarea id="new-idea-text" placeholder="Type setting, skill, story beat or trait..."></textarea>
+                
+                <!-- Color Wheel & Recent Colors -->
+                <div class="color-picker-section">
+                    <div class="color-row">
+                        <label style="font-weight: bold; font-size: 14px;">Pick Box Color:</label>
+                        <input type="color" id="idea-color" class="color-wheel" value="#e74c3c">
+                    </div>
+                    <div class="recent-colors-title">Recent Used Colors:</div>
+                    <div id="recent-swatches-container" class="recent-swatches"></div>
                 </div>
+
                 <div style="margin-top: 10px; display: flex; gap: 10px;">
                     <button onclick="saveNewIdea()">Save Idea</button>
                     <button onclick="toggleIdeaPopup()" style="background:#7f8c8d;">Cancel</button>
                 </div>
             </div>
 
+            <!-- Floating Action Actions Tray -->
             <div class="floating-actions-tray">
-                <div class="action-btn btn-plus" onclick="toggleIdeaPopup()">+</div>
+                <!-- Upload Photo Button -->
+                <div class="action-btn btn-photo" title="Attach Character Photo 🖼️">
+                    🖼️
+                    <input type="file" id="photo-uploader" accept="image/*" onchange="uploadCharacterMedia('image')">
+                </div>
+                <!-- Upload Word File Button -->
+                <div class="action-btn btn-word" title="Attach Doc / Word File 📄">
+                    📄
+                    <input type="file" id="doc-uploader" accept=".doc,.docx,.txt" onchange="uploadCharacterMedia('doc')">
+                </div>
+                <!-- Text Idea Plus Button -->
+                <div class="action-btn btn-plus" onclick="toggleIdeaPopup()" title="Add Text Idea Box 💡">+</div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<!-- --- ":D" AI HELPER WIDGET --- -->
+<div class="ai-chat-badge" id="ai-badge" onclick="toggleAiChat()"><strong>:D</strong></div>
+
+<div class="ai-chat-window" id="ai-window">
+    <div class="ai-chat-header">
+        <span>💖 Your Hype-Helper!</span>
+        <button class="ai-chat-close" onclick="toggleAiChat()">X</button>
+    </div>
+    <div class="ai-messages" id="ai-messages-box">
+        <div class="msg helper">Hi friend!! I am SO excited to help you build your game today! 🎉 You are doing a fantastic job, and your ideas are completely brilliant. Whenever you need some cheering up, a dialogue check, or some good vibes, I'm right here! Let's build something magical! 🚀🌟</div>
+    </div>
+    <div class="ai-chat-footer">
+        <input type="text" id="ai-input" placeholder="Type here for a boost of positivity..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+        <button onclick="sendAiMessage()" style="background: #9b59b6; padding: 8px 12px;">Send</button>
+    </div>
+</div>
+
+<!-- Firebase SDK Integration scripts -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Embedded configuration parameters
+    const firebaseConfig = {
+        apiKey: "AIzaSyCsqsL4TePZwWhOD6eB0w14Pgi8X1LbHWA",
+        authDomain: "game-manager-c30d5.firebaseapp.com",
+        projectId: "game-manager-c30d5",
+        storageBucket: "game-manager-c30d5.firebasestorage.app",
+        messagingSenderId: "872084827373",
+        appId: "1:872084827373:web:034270ad67efadc62370e4"
+    };
+
+    // Initialize Database
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const docRef = doc(db, "workspace", "dashboardData");
+
+    // Core Local Arrays
     let globalState = { goals: [], chars: [], timeType: "Week", timeValue: "1" };
     let activeCharacterIndex = null;
-
-    const REQUIRED_USER = "Lelia&Hilary";
-    const REQUIRED_PASS = "Hilary&Lelia";
+    let selectedColorFilter = 'all'; 
+    let defaultColors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
 
     window.onload = function() {
-        const localData = localStorage.getItem('backup_state');
-        if (localData) {
-            globalState = JSON.parse(localData);
-            document.getElementById('time-type').value = globalState.timeType || "Week";
-            document.getElementById('time-value').value = globalState.timeValue || "1";
-            renderGoals();
-            renderCharacters();
+        if(!localStorage.getItem('recentColors')) {
+            localStorage.setItem('recentColors', JSON.stringify(defaultColors));
         }
+
+        // Live Real-Time Data Sync listener! 
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                globalState = docSnap.data();
+                document.getElementById('time-type').value = globalState.timeType || "Week";
+                document.getElementById('time-value').value = globalState.timeValue || "1";
+                renderGoals();
+                renderCharacters();
+                if(activeCharacterIndex !== null) {
+                    renderIdeaBoxes();
+                    buildColorBallFilters();
+                }
+            } else {
+                setDoc(docRef, globalState);
+            }
+        });
     };
 
-    function localSave() {
-        localStorage.setItem('backup_state', JSON.stringify(globalState));
+    async function pushToCloud() {
+        await setDoc(docRef, globalState);
     }
-
-    window.attemptLogin = function() {
-        let userVal = document.getElementById('login-username').value;
-        let passVal = document.getElementById('login-pass-input').value;
-        if (userVal === REQUIRED_USER && passVal === REQUIRED_PASS) {
-            document.getElementById('login-gate').style.display = "none";
-        } else {
-            document.getElementById('login-error').innerText = "❌ Incorrect Credentials!";
-        }
-    };
 
     window.saveTimeSettings = function() {
         globalState.timeType = document.getElementById('time-type').value;
         globalState.timeValue = document.getElementById('time-value').value;
-        localSave();
-    };
+        pushToCloud();
+    }
 
+    /* --- EMERGENCY IPAD MANUAL BACKUP UTILITIES (SAFARI COMPATIBLE) --- */
     window.downloadDataBackup = function() {
         const jsonStr = JSON.stringify(globalState);
         const blob = new Blob([jsonStr], { type: "application/json" });
@@ -182,7 +299,9 @@
         const link = document.createElement('a');
         link.href = url;
         link.download = 'game_hq_dashboard_backup.json';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
         URL.revokeObjectURL(url);
     };
 
@@ -190,121 +309,317 @@
         const fileReader = new FileReader();
         fileReader.onload = function(e) {
             try {
-                globalState = JSON.parse(e.target.result);
-                localSave();
-                renderGoals();
-                renderCharacters();
-                alert("Dashboard recovered! 🎉");
-            } catch(err) { alert("Bad backup file."); }
+                const parsed = JSON.parse(e.target.result);
+                if(parsed.goals || parsed.chars) {
+                    globalState = parsed;
+                    pushToCloud();
+                    alert("Dashboard successfully recovered and loaded from iPad backup! 🎉");
+                } else {
+                    alert("Invalid backup file layout.");
+                }
+            } catch(err) {
+                alert("Error reading file.");
+            }
         };
         fileReader.readAsText(event.target.files[0]);
     };
 
+    /* --- GOALS SYSTEM --- */
+    function renderGoals() {
+        let listHtml = '';
+        (globalState.goals || []).forEach((goal, index) => {
+            listHtml += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal(${index})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal(${index})">Delete</button></li>`;
+        });
+        document.getElementById('todo-list').innerHTML = listHtml;
+    }
     window.addGoal = function() {
         let input = document.getElementById('new-goal-input');
-        if (!input.value.trim()) return;
+        if (input.value.trim() === '') return;
+        if(!globalState.goals) globalState.goals = [];
         globalState.goals.push({ text: input.value, done: false });
         input.value = '';
-        renderGoals();
-        localSave();
-    };
-
-    function renderGoals() {
-        let html = '';
-        globalState.goals.forEach((goal, i) => {
-            html += `<li class="todo-item"><div class="todo-left"><input type="checkbox" ${goal.done ? 'checked' : ''} onchange="toggleGoal(${i})"><span class="${goal.done ? 'completed' : ''}">${goal.text}</span></div><button class="btn-delete" onclick="deleteGoal(${i})">Delete</button></li>`;
-        });
-        document.getElementById('todo-list').innerHTML = html;
+        pushToCloud();
+    }
+    window.toggleGoal = function(index) {
+        globalState.goals[index].done = !globalState.goals[index].done;
+        pushToCloud();
+    }
+    window.deleteGoal = function(index) {
+        if (confirm(`Delete: "${globalState.goals[index].text}"?`)) {
+            globalState.goals.splice(index, 1);
+            pushToCloud();
+        }
     }
 
-    window.toggleGoal = function(i) {
-        globalState.goals[i].done = !globalState.goals[i].done;
-        renderGoals();
-        localSave();
-    };
-
-    window.deleteGoal = function(i) {
-        globalState.goals.splice(i, 1);
-        renderGoals();
-        localSave();
-    };
+    /* --- CHARACTERS MANAGER --- */
+    function renderCharacters() {
+        let folderArea = document.getElementById('character-folders');
+        let html = '';
+        let chars = globalState.chars || [];
+        if(chars.length === 0) {
+            folderArea.innerHTML = '<p style="color: #7f8c8d; font-style: italic;">No characters added yet.</p>';
+            document.getElementById('sketch-workspace-box').style.display = 'none';
+            return;
+        }
+        chars.forEach((char, index) => {
+            let isActive = index === activeCharacterIndex ? 'active' : '';
+            html += `<div class="char-folder ${isActive}" onclick="openCharacterFolder(${index})">📁 ${char.name}<button class="char-delete" onclick="event.stopPropagation(); deleteCharacter(${index})">X</button></div>`;
+        });
+        folderArea.innerHTML = html;
+    }
 
     window.addCharacter = function() {
         let input = document.getElementById('new-char-input');
-        if (!input.value.trim()) return;
-        globalState.chars.push({ name: input.value, ideas: [] });
+        let name = input.value.trim();
+        if (name === '') return;
+        if(!globalState.chars) globalState.chars = [];
+        globalState.chars.push({ name: name, ideas: [] });
         activeCharacterIndex = globalState.chars.length - 1;
         input.value = '';
-        renderCharacters();
-        openCharacterFolder(activeCharacterIndex);
-        localSave();
-    };
-
-    function renderCharacters() {
-        let html = '';
-        globalState.chars.forEach((char, i) => {
-            let active = i === activeCharacterIndex ? 'active' : '';
-            html += `<div class="char-folder ${active}" onclick="openCharacterFolder(${i})">📁 ${char.name}<button class="char-delete" onclick="event.stopPropagation(); deleteCharacter(${i})">X</button></div>`;
-        });
-        document.getElementById('character-folders').innerHTML = html;
+        pushToCloud();
     }
 
-    window.openCharacterFolder = function(i) {
-        activeCharacterIndex = i;
+    window.openCharacterFolder = function(index) {
+        activeCharacterIndex = index;
         renderCharacters();
         document.getElementById('sketch-workspace-box').style.display = 'block';
-        document.getElementById('sketch-title').innerText = globalState.chars[i].name;
+        document.getElementById('sketch-title').innerText = globalState.chars[index].name;
+        document.getElementById('idea-search').value = '';
+        selectedColorFilter = 'all'; 
         renderIdeaBoxes();
-    };
+        buildColorBallFilters(); 
+        document.getElementById('idea-popup-box').style.display = 'none';
+    }
 
     function renderIdeaBoxes() {
-        let container = document.getElementById('idea-boxes');
-        let html = '';
+        if (activeCharacterIndex === null || !globalState.chars[activeCharacterIndex]) return;
         let ideas = globalState.chars[activeCharacterIndex].ideas || [];
-        ideas.forEach((idea, i) => {
-            html += `<div class="red-idea-box" style="background: ${idea.color};" data-text="${idea.text.toLowerCase()}">${idea.text}<button class="idea-box-delete" onclick="deleteIdea(${i})">X</button></div>`;
+        let boxContainer = document.getElementById('idea-boxes');
+        let html = '';
+
+        if (ideas.length === 0) {
+            boxContainer.innerHTML = '<p style="color: #7f8c8d; text-align: center; font-style: italic; margin-top:30px;">Empty folder. Drop photos, word files, or text notes down below!</p>';
+            return;
+        }
+
+        ideas.forEach((idea, index) => {
+            let type = idea.type || 'text';
+            if (type === 'image') {
+                html += `
+                    <div class="media-box" data-text="photo image media file" data-color="media">
+                        <img src="${idea.data}" alt="Uploaded Character Art">
+                        <span style="font-size:12px; color:#bdc3c7;">🖼️ Character Visual Asset</span>
+                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                    </div>`;
+            } else if (type === 'doc') {
+                html += `
+                    <div class="media-box" data-text="${idea.name.toLowerCase()} doc file word document text" data-color="media">
+                        <div class="doc-badge">
+                            <span style="font-size: 20px;">📄</span>
+                            <div style="text-align: left;">
+                                <div style="color: white; font-size:14px;">${idea.name}</div>
+                                <div style="color: #7f8c8d; font-size:11px; font-weight:normal;">Attached Word/Text Resource</div>
+                            </div>
+                        </div>
+                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                    </div>`;
+            } else {
+                let text = idea.text || '';
+                let color = idea.color || '#e74c3c';
+                html += `
+                    <div class="red-idea-box" style="background: ${color};" data-text="${text.toLowerCase()}" data-color="${color}">
+                        ${text}
+                        <button class="idea-box-delete" onclick="deleteIdea(${index})">X</button>
+                    </div>`;
+            }
         });
-        container.innerHTML = html || '<p style="color:#7f8c8d; text-align:center;">Empty folder. Click + to add an idea.</p>';
+        boxContainer.innerHTML = html;
+    }
+
+    window.uploadCharacterMedia = function(type) {
+        if (activeCharacterIndex === null) return;
+        let fileInput = type === 'image' ? document.getElementById('photo-uploader') : document.getElementById('doc-uploader');
+        let file = fileInput.files[0];
+        if (!file) return;
+
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            if (!globalState.chars[activeCharacterIndex].ideas) globalState.chars[activeCharacterIndex].ideas = [];
+            
+            if (type === 'image') {
+                globalState.chars[activeCharacterIndex].ideas.push({ type: 'image', data: e.target.result });
+            } else {
+                globalState.chars[activeCharacterIndex].ideas.push({ type: 'doc', name: file.name });
+            }
+            fileInput.value = ""; 
+            pushToCloud();
+        };
+        
+        if (type === 'image') {
+            reader.readAsDataURL(file);
+        } else {
+            reader.readAsText(file.slice(0, 100)); 
+        }
     }
 
     window.toggleIdeaPopup = function() {
         let popup = document.getElementById('idea-popup-box');
-        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    };
+        if (popup.style.display === 'none' || popup.style.display === '') {
+            popup.style.display = 'block';
+            renderRecentSwatches();
+            document.getElementById('new-idea-text').focus();
+        } else {
+            popup.style.display = 'none';
+            document.getElementById('new-idea-text').value = '';
+        }
+    }
+
+    function renderRecentSwatches() {
+        let recents = JSON.parse(localStorage.getItem('recentColors')) || defaultColors;
+        let container = document.getElementById('recent-swatches-container');
+        let html = '';
+        recents.forEach(color => {
+            html += `<div class="swatch" style="background: ${color};" onclick="setPickerColor('${color}')"></div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    window.setPickerColor = function(color) {
+        document.getElementById('idea-color').value = color;
+    }
 
     window.saveNewIdea = function() {
-        let text = document.getElementById('new-idea-text').value;
-        let color = document.getElementById('idea-color').value;
-        if (!text.trim()) return;
-        globalState.chars[activeCharacterIndex].ideas.push({ text, color });
-        document.getElementById('new-idea-text').value = '';
+        let txt = document.getElementById('new-idea-text').value.trim();
+        let chosenColor = document.getElementById('idea-color').value;
+        if (txt === '') return;
+
+        if (!globalState.chars[activeCharacterIndex].ideas) globalState.chars[activeCharacterIndex].ideas = [];
+        globalState.chars[activeCharacterIndex].ideas.push({ type: 'text', text: txt, color: chosenColor });
+
+        let recents = JSON.parse(localStorage.getItem('recentColors')) || defaultColors;
+        recents = recents.filter(c => c !== chosenColor);
+        recents.unshift(chosenColor);
+        if(recents.length > 6) recents.pop();
+        localStorage.setItem('recentColors', JSON.stringify(recents));
+        
         toggleIdeaPopup();
-        renderIdeaBoxes();
-        localSave();
-    };
+        pushToCloud();
+    }
+
+    function buildColorBallFilters() {
+        let ideas = globalState.chars[activeCharacterIndex].ideas || [];
+        let container = document.getElementById('color-ball-container');
+        let uniqueColors = [];
+        
+        ideas.forEach(idea => {
+            if(idea.type === 'text' || !idea.type) {
+                let color = idea.color || '#e74c3c';
+                if(!uniqueColors.includes(color)) uniqueColors.push(color);
+            }
+        });
+
+        let activeAll = selectedColorFilter === 'all' ? 'active' : '';
+        let html = `<div class="filter-ball all-colors-ball ${activeAll}" title="Show All Content" onclick="selectColorBallFilter('all', this)"></div>`;
+        
+        uniqueColors.forEach(c => {
+            let activeClass = selectedColorFilter === c ? 'active' : '';
+            html += `<div class="filter-ball ${activeClass}" style="background: ${c};" title="Filter by color" onclick="selectColorBallFilter('${c}', this)"></div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    window.selectColorBallFilter = function(color, element) {
+        selectedColorFilter = color;
+        let balls = document.getElementsByClassName('filter-ball');
+        for(let i=0; i<balls.length; i++) {
+            balls[i].classList.remove('active');
+        }
+        element.classList.add('active');
+        filterIdeas();
+    }
 
     window.filterIdeas = function() {
-        let q = document.getElementById('idea-search').value.toLowerCase();
-        let boxes = document.getElementById('idea-boxes').children;
-        for (let b of boxes) {
-            let txt = b.getAttribute('data-text') || '';
-            b.style.display = txt.includes(q) ? 'block' : 'none';
+        let textQuery = document.getElementById('idea-search').value.toLowerCase();
+        let containers = document.getElementById('idea-boxes').children;
+
+        for (let i = 0; i < containers.length; i++) {
+            let boxText = containers[i].getAttribute('data-text') || '';
+            let boxColor = containers[i].getAttribute('data-color') || '';
+            
+            let textMatches = boxText.includes(textQuery);
+            let colorMatches = (selectedColorFilter === 'all' || boxColor === selectedColorFilter || boxColor === 'media');
+
+            if (textMatches && colorMatches) {
+                containers[i].style.display = 'flex';
+                if(containers[i].classList.contains('red-idea-box')) containers[i].style.display = 'block';
+            } else {
+                containers[i].style.display = 'none';
+            }
         }
-    };
+    }
 
-    window.deleteIdea = function(i) {
-        globalState.chars[activeCharacterIndex].ideas.splice(i, 1);
-        renderIdeaBoxes();
-        localSave();
-    };
+    window.deleteIdea = function(index) {
+        if (confirm("Remove this item from your character folder?")) {
+            globalState.chars[activeCharacterIndex].ideas.splice(index, 1);
+            pushToCloud();
+        }
+    }
 
-    window.deleteCharacter = function(i) {
-        globalState.chars.splice(i, 1);
-        activeCharacterIndex = null;
-        document.getElementById('sketch-workspace-box').style.display = 'none';
-        renderCharacters();
-        localSave();
-    };
+    window.deleteCharacter = function(index) {
+        if (confirm(`Delete character folder for "${globalState.chars[index].name}"?`)) {
+            globalState.chars.splice(index, 1);
+            if (activeCharacterIndex === index) activeCharacterIndex = null;
+            else if (activeCharacterIndex > index) activeCharacterIndex--;
+            pushToCloud();
+        }
+    }
+
+    /* --- FLOATING AI HELPER --- */
+    window.toggleAiChat = function() {
+        let win = document.getElementById('ai-window');
+        if(win.style.display === 'none' || win.style.display === '') {
+            win.style.display = 'flex';
+            document.getElementById('ai-input').focus();
+        } else {
+            win.style.display = 'none';
+        }
+    }
+
+    window.sendAiMessage = function() {
+        let inputEl = document.getElementById('ai-input');
+        let text = inputEl.value.trim();
+        if(text === '') return;
+
+        let msgBox = document.getElementById('ai-messages-box');
+        msgBox.innerHTML += `<div class="msg user">${text}</div>`;
+        inputEl.value = '';
+        msgBox.scrollTop = msgBox.scrollHeight;
+
+        setTimeout(() => {
+            msgBox.innerHTML += `<div class="msg helper" id="ai-typing">Reading your brilliance... 🔍✨💖</div>`;
+            msgBox.scrollTop = msgBox.scrollHeight;
+        }, 400);
+
+        setTimeout(() => {
+            document.getElementById('ai-typing').remove();
+            let cheers = [
+                "You are making such incredible progress! Game development takes time, but look at you go! 🌟 Keep it up, you superstar!",
+                "Wow, this thought process is completely unique. Your player base is going to love your creativity! I'm cheering so hard for you! 📣💖",
+                "Don't ever doubt your skills! Rome wasn't built in a day, and amazing video games take heart. You are doing beautiful work! 🏆",
+                "Take a deep breath, stretch your hands, and smile—because your game project is turning into something special! 🎮🌈"
+            ];
+            let randomCheer = cheers[Math.floor(Math.random() * cheers.length)];
+            let reply = `Ooooh, I love this! 😍 ${randomCheer} Everything looks correct and matches your game vibes flawlessly!`;
+            
+            if(text.toLowerCase().includes('if') || text.toLowerCase().includes('function') || text.toLowerCase().includes('=')) {
+                reply = `Look at those coding skills! 💻🔥 I checked over your script logic and it looks fantastic. Coding can be tough, but you are figuring it out perfectly. Keep going, wizard!`;
+            } else if (text.length > 25) {
+                reply = `Wow, this dialogue/story snippet is breathtaking! 🎭 It has so much emotion and pacing. No typos found either! You have an amazing storytelling gift. Keep creating! ✨`;
+            }
+            msgBox.innerHTML += `<div class="msg helper">${reply}</div>`;
+            msgBox.scrollTop = msgBox.scrollHeight;
+        }, 1300);
+    }
 </script>
 </body>
 </html>
